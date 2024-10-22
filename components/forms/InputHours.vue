@@ -25,8 +25,17 @@ const minutesInput = ref<HTMLInputElement>();
 
 const props = defineProps<{
     modelValue: number;
+    focus?: boolean;
 }>();
-const emits = defineEmits(['update:modelValue'])
+
+const emits = defineEmits(['update:modelValue', 'focus', 'blur']);
+
+onMounted(() => {
+    if (props.focus) {
+        focusInput();
+        focusEventInput();
+    }
+})
 
 const updateValue = () => {
     const valor = stringFormatHoursMinutesToDecimal(`${hours.value}:${minutes.value}`);
@@ -101,5 +110,6 @@ const focusEventInput = () => {
 
 const unfocusEventInput = () => {
     divContent.value?.classList.remove('tw-outline');
+    emits('blur');
 }
 </script>

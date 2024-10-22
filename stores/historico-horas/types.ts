@@ -1,16 +1,18 @@
 import type { GridDataItem } from "~/components/grid/types";
 
 export type CalcularHorasState = {
-  historico: HistoricoItem[];
+  historico: HistoricoItemState[];
   tempoInicial: number;
   tempoFinal: number;
   tempoAjustado: number;
   tipoCalculo: TipoCalculo;
   tag: string;
   formato: string;
+  colunaEditando: string;
+  itemSelecionadoEditando: string;
 };
 
-export type HistoricoItem = {
+export type HistoricoItemState = {
   uid: string;
   tempoInicial: number;
   tempoFinal: number;

@@ -14,7 +14,7 @@
 
                         <li>
                             <a href="#"
-                                class="tw-block tw-py-2 tw-px-3 tw-rounded tw-hover:bg-gray-100 md:tw-hover:bg-transparent md:tw-border-0 md:tw-hover:text-blue-700 md:tw-p-0 tw-dark:tw-text-white md:tw-dark:tw-hover:text-blue-500 tw-dark:tw-hover:bg-gray-700 tw-dark:tw-hover:text-white md:tw-dark:tw-hover:bg-transparent">
+                                class="tw-block tw-py-2 tw-px-3 tw-rounded tw-hover:bg-gray-100 md:tw-hover:bg-transparent md:tw-border-0 md:tw-hover:text-blue-700 md:tw-p-0 dark:tw-text-white md:tw-dark:tw-hover:text-blue-500 dark:tw-hover:bg-gray-700 dark:tw-hover:text-white=">
                                 Ultilitarios</a>
                         </li>
                     </ul>
@@ -26,7 +26,7 @@
         </div>
     </nav>
 
-    <div class="tw-px-20">
+    <div class="tw-flex tw-justify-center">
         <slot />
     </div>
 </template>

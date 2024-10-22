@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import { TipoCalculo, type CalcularHorasState } from "./types";
+import { TipoCalculo, type CalcularHorasState, type HistoricoItemState } from "./types";
+import sumTotal from "~/utils/sum-total";
 
 export const useHistoricoHorasStore = defineStore("historico-horas", {
   state: (): CalcularHorasState => ({
@@ -10,26 +11,38 @@ export const useHistoricoHorasStore = defineStore("historico-horas", {
     tipoCalculo: TipoCalculo.vazio,
     tag: "",
     formato: "",
+    colunaEditando: "",
+    itemSelecionadoEditando: "",
   }),
   getters: {
     totalResultado(): number {
-      if (this.tipoCalculo === TipoCalculo.somar) {
-        return Math.abs(this.tempoInicial + this.tempoFinal);
-      }
-      if (this.tipoCalculo === TipoCalculo.subtrair) {
-        return Math.abs(this.tempoInicial - this.tempoFinal);
-      }
-
-      return 0;
+      return sumTotal(this);
+    },
+    totalHistorico(): number {
+      return this.historico.reduce((acc, curr) => acc + sumTotal(curr), 0);
     },
   },
   actions: {
-    removerItem(uid: string) {
-      this.historico = this.historico.filter((item) => item.uid !== uid);
+    async inicializar() {
+      const { $historicoHorasStorage } = useNuxtApp();
+      const historico = await $historicoHorasStorage.get();
+      this.historico = historico.map((item) => ({
+        ...item,
+      }));
     },
-    addHistorico() {
+    async removerItem(uid: string) {
+      this.historico = this.historico.filter((item) => item.uid !== uid);
+      const { $historicoHorasStorage } = useNuxtApp();
+      await $historicoHorasStorage.remove(uid);
+    },
+    async alterarItem(item: HistoricoItemState) {
+      const { $historicoHorasStorage } = useNuxtApp();
+      await $historicoHorasStorage.update(item);
+    },
+    async addHistorico() {
       if (this.tipoCalculo == TipoCalculo.vazio) return;
-      this.historico.push({
+
+      const item: HistoricoItemState = {
         uid: Date.now().toString(),
         tempoInicial: this.tempoInicial,
         tempoFinal: this.tempoFinal,
@@ -38,8 +51,12 @@ export const useHistoricoHorasStore = defineStore("historico-horas", {
         tag: this.tag,
         formato: this.formato,
         dataInclusao: new Date(),
-      });
-      console.log(this.historico);
+      };
+
+      this.historico.push(item);
+
+      const { $historicoHorasStorage } = useNuxtApp();
+      $historicoHorasStorage.add(item);
     },
   },
 });

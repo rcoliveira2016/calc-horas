@@ -4,16 +4,28 @@
             <BtnIcon class="tw-text-red-700" icon="ic:baseline-delete" @click="deletarIcone(item.uid)" />
         </template>
         <template #td-name-inicio="{ item }">
-            {{ decimalToFormatHoursMinutos(item.tempoInicial) }}
+            <GridWrapperColEditor key-name="uid" name-column="inicio" :item="item" :name-column-edit="store.colunaEditando"
+                :key-value="store.itemSelecionadoEditando" @focusin="focusin">
+                {{ decimalToFormatHoursMinutos(item.tempoInicial) }}
+                <template #editor="{ item }">
+                    <FormsInputHours v-model="item.tempoInicial" focus @keyup.enter="focusout(item)" />
+                </template>
+            </GridWrapperColEditor>
         </template>
         <template #td-name-final="{ item }">
-            {{ decimalToFormatHoursMinutos(item.tempoFinal) }}
+            <GridWrapperColEditor key-name="uid" name-column="final" :item="item" :name-column-edit="store.colunaEditando"
+                :key-value="store.itemSelecionadoEditando" @focusin="focusin">
+                {{ decimalToFormatHoursMinutos(item.tempoFinal) }}
+                <template #editor="{ item }">
+                    <FormsInputHours v-model="item.tempoFinal" focus @keyup.enter="focusout(item)" />
+                </template>
+            </GridWrapperColEditor>
         </template>
         <template #td-name-total="{ item }">
             {{ decimalToFormatHoursMinutos(somarTotal(item)) }}
         </template>
         <template #td-name-formatoDecimal="{ item }">
-            {{ somarTotal(item) }}
+            {{ somarTotal(item).toFixed(2) }}
         </template>
         <template #td-name-formatoCustomizado="{ item }">
             {{ formatCustomHours(somarTotal(item), item.formato) }}
@@ -23,24 +35,32 @@
 <script setup lang="ts">
 import type { GridColumnProps } from '~/components/grid/types';
 import { useHistoricoHorasStore } from '~/stores/historico-horas/store';
-import { TipoCalculo, type HistoricoItem } from '~/stores/historico-horas/types';
+import { type HistoricoItemState } from '~/stores/historico-horas/types';
+import sumTotal from '~/utils/sum-total';
 
 const store = useHistoricoHorasStore();
 
+onMounted(() => {
+    store.inicializar();
+})
 
-const somarTotal = (item: HistoricoItem) => {
-    if (item.tipoCalculo === TipoCalculo.somar) {
-        return Math.abs(item.tempoInicial + item.tempoFinal);
-    }
-    if (item.tipoCalculo === TipoCalculo.subtrair) {
-        return Math.abs(item.tempoInicial - item.tempoFinal);
-    }
-
-    return 0;
+const somarTotal = (item: HistoricoItemState) => {
+    return sumTotal(item);
 }
 
 const deletarIcone = (uid: string) => {
     store.removerItem(uid);
+}
+
+const focusin = (uid: string|number, nameColumn: string) => {
+    store.colunaEditando = nameColumn;
+    store.itemSelecionadoEditando = uid as string;
+}
+
+const focusout = (item: HistoricoItemState) => {
+    store.colunaEditando = "";
+    store.itemSelecionadoEditando = "";
+    store.alterarItem(item);
 }
 
 const columns: GridColumnProps[] = [

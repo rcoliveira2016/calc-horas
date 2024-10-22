@@ -19,6 +19,7 @@
             </div>
         </div>
         <div class="tw-w-[58rem] tw-mt-3">
+            <div class="tw-text-xl tw-font-bold tw-py-4">Total Horas: {{ decimalToFormatHoursMinutos(store.totalHistorico) }} </div>
             <HistoricoHorasGrid />
         </div>
     </div>
