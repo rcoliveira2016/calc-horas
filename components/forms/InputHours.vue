@@ -63,6 +63,7 @@ const keyUpInputs = (event: KeyboardEvent) => {
     if(input.role === "input-hours"){
         if (position === 2) 
             minutesInput.value?.focus();
+            minutesInput.value?.setSelectionRange(0,0,"none") 
     }
 
     if (input.role === "input-minutes") { 

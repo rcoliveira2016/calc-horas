@@ -39,6 +39,11 @@ export const useHistoricoHorasStore = defineStore("historico-horas", {
       const { $historicoHorasStorage } = useNuxtApp();
       await $historicoHorasStorage.update(item);
     },
+    async limparHistorico() {
+      const { $historicoHorasStorage } = useNuxtApp();
+      this.historico.forEach(async (item) => await $historicoHorasStorage.remove(item.uid));
+      this.historico = [];
+    },
     async addHistorico() {
       if (this.tipoCalculo == TipoCalculo.vazio) return;
 
