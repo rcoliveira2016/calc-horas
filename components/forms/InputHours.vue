@@ -3,13 +3,15 @@
         <div ref="divContent" tabindex="0" @click.self="focusInput" @focus="focusDivContent"
             class="tw-flex tw-outline-1 tw-items-center tw-rounded-lg tw-border tw-border-neutral-200 dark:tw-border-white/10 tw-bg-gray-600 dark:tw-bg-gray-800 tw-p-3 tw-w-fit">
 
-            <input ref="hoursInput" maxlength="2" :value="hours" @input="inputHours" @keydown="keydownInputs"
-                @keyup.up="acrescentHours" @keyup.down="decrementHours" @focus="focusEventInput"
-                @blur="unfocusEventInput" class="tw-border-none tw-bg-inherit tw-w-8 tw-text-center" />
-            <span class="tw-px-2">:</span>
-            <input ref="minutesInput" maxlength="2" :value="minutes" @input="inputMinutes" @keydown="keydownInputs"
-                @keyup.up="acrescentMinutes" @keyup.down="decrementMinutes" @focus="focusEventInput"
-                @blur="unfocusEventInput" class="tw-border-none tw-bg-inherit tw-w-8 tw-text-center" />
+            <input ref="hoursInput" role="input-hours" maxlength="2" :value="hours" @input="inputHours"
+                @keydown="keydownInputs" @keyup.up="acrescentHours" @keyup.down="decrementHours"
+                @focus="focusEventInput" @blur="unfocusEventInput" @keyup="keyUpInputs"
+                class="tw-border-none tw-bg-inherit tw-w-8 tw-text-center focus:tw-outline-none" />
+            <span class="tw-px-none">:</span>
+            <input ref="minutesInput" role="input-minutes" maxlength="2" :value="minutes" @input="inputMinutes"
+                @keydown="keydownInputs" @keyup.up="acrescentMinutes" @keyup.down="decrementMinutes"
+                @focus="focusEventInput" @blur="unfocusEventInput" @keyup="keyUpInputs"
+                class="tw-border-none tw-bg-inherit tw-w-8 tw-text-center focus:tw-outline-none" />
         </div>
     </span>
 </template>
@@ -44,13 +46,30 @@ const updateValue = () => {
 
 const keydownInputs = (event: KeyboardEvent) => {
     if (
-        event.key === "Backspace" || event.key === "Delete" || event.key === "ArrowLeft" ||
-        event.key === "ArrowRight" || event.key === "Tab"
+        event.key === "Backspace" || event.key === "Delete" || event.key === "Tab" || event.key === "ArrowLeft" ||
+        event.key === "ArrowRight"
     )
         return;
 
     if (!/^[0-9]$/.test(event.key))
         event.preventDefault();
+}
+
+const keyUpInputs = (event: KeyboardEvent) => {
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+
+    const input = event.target as HTMLInputElement;
+    const position = input.selectionStart;
+    if(input.role === "input-hours"){
+        if (position === 2) 
+            minutesInput.value?.focus();
+    }
+
+    if (input.role === "input-minutes") { 
+        if (position === 0) {
+            hoursInput.value?.focus();
+        }
+    }
 }
 
 const inputMinutes = (event: Event) => {

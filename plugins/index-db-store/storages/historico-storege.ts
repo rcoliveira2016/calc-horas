@@ -1,38 +1,42 @@
 import type { TipoCalculo } from "~/stores/historico-horas/types";
-import { getOpenSession } from "../open-db";
+import { getOpenDb } from "../open-db";
+import { getObjectStoreAllValues, getObjectStoreTransaction, getTransaction } from "../open-session";
+import { NAME_OBJECT_STORE_HISTORICO } from "./constants";
 import { unwrapRequest } from "../unwrap-request";
 
 export const HistoricoStorege = () => {
     return {
-      get: async (): Promise<HistoricoStorage[]> => {
-        const db = await getOpenSession();
-        const transaction = db.transaction("historico");
-
-        return unwrapRequest(transaction.objectStore("historico").getAll());
+      getAll: async (): Promise<HistoricoStorage[]> => {
+        return await getObjectStoreAllValues(await getOpenDb(), NAME_OBJECT_STORE_HISTORICO);
       },
       add: async (historico: HistoricoStorage) => {
-        const db = await getOpenSession();
-        const transaction = db.transaction("historico", "readwrite");
-
-        unwrapRequest(transaction.objectStore("historico").add(historico));
-        transaction.commit();
-        db.close();
+        await getObjectStoreTransaction(
+          await getOpenDb(),
+          NAME_OBJECT_STORE_HISTORICO,
+          async (objectStore) => {
+            await unwrapRequest(objectStore.add(historico));
+          }
+        );
       },
       remove: async (key: IDBValidKey | IDBKeyRange) => {
-        const db = await getOpenSession();
-        const transaction = db.transaction("historico", "readwrite");
-
-        transaction.objectStore("historico").delete(key);
-        transaction.commit();
-        db.close();
+        await getObjectStoreTransaction(
+          await getOpenDb(),
+          NAME_OBJECT_STORE_HISTORICO,
+          async (objectStore) => {
+            await unwrapRequest(objectStore.delete(key));
+          }
+        );
       },
       update: async (historico: HistoricoStorage) => {
-        const db = await getOpenSession();
-        const transaction = db.transaction("historico", "readwrite");
-
-        transaction.objectStore("historico").put(historico, historico.uid);
-        transaction.commit();
-        db.close();
+        await getObjectStoreTransaction(
+          await getOpenDb(),
+          NAME_OBJECT_STORE_HISTORICO,
+          async (objectStore) => {
+            const dataStore = await unwrapRequest<HistoricoStorage>(await objectStore.get(historico.uid));
+            const newData = { ...dataStore, ...historico };
+            await unwrapRequest(objectStore.put(newData));
+          }
+        );
       },
     };
 }

@@ -25,7 +25,7 @@ export const useHistoricoHorasStore = defineStore("historico-horas", {
   actions: {
     async inicializar() {
       const { $historicoHorasStorage } = useNuxtApp();
-      const historico = await $historicoHorasStorage.get();
+      const historico = await $historicoHorasStorage.getAll();
       this.historico = historico.map((item) => ({
         ...item,
       }));

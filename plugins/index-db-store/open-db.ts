@@ -1,21 +1,16 @@
-const migracoes: Record<string, (db: IDBDatabase) => void> = {
-  "1": (db: IDBDatabase): void => {
-    db.createObjectStore("historico", {
-      keyPath: "uid",
-      autoIncrement: false
-    });
-  },
-}
-export const getOpenSession = (): Promise<IDBDatabase> => {
+import { migrations } from "./migrations-schema";
+
+
+export const getOpenDb = (): Promise<IDBDatabase> => {
   const openRequest = indexedDB.open("store", 1);
   return new Promise((resolve, reject) => {
 
     openRequest.onupgradeneeded = function (event) {
       const versionMigration = event.newVersion ?? event.oldVersion;
-      console.log(versionMigration);
-      if (typeof migracoes[versionMigration.toString()] === "function") {
+      
+      if (typeof migrations[versionMigration.toString()] === "function") {
       const db = openRequest.result;
-        migracoes[versionMigration.toString()](db);
+        migrations[versionMigration.toString()](db);
       }
       
     };
