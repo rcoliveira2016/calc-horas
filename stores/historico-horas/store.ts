@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import setarConfiguracoesItemHistorico from '~/utils/historico-horas/setar-configuracoes-item-historico'
 import sumTotal from '~/utils/sum-total'
 import {
   TipoCalculo,
@@ -68,29 +69,9 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
         formato: this.formato,
         dataInclusao: new Date(),
       }
-      const { $historicoHorasStorage, $configuracoesHistoricoStorage } =
-        useNuxtApp()
+      const { $historicoHorasStorage } = useNuxtApp()
 
-      const configuracoesHistoricoStorage =
-        await $configuracoesHistoricoStorage.get()
-      if (configuracoesHistoricoStorage.subtrairHorasAlmoco) {
-        const { hours: tempoInicialHoras } = decimalToHoursMinutos(
-          item.tempoInicial,
-        )
-        const { hours: tempoFinalHoras, minutes: tempoFinalMunitos } =
-          decimalToHoursMinutos(item.tempoFinal)
-        const { minutes: tempoAlmocoEmMunitos } = decimalToHoursMinutos(
-          configuracoesHistoricoStorage.tempoAlmoco,
-        )
-        if (
-          tempoInicialHoras <= 12 &&
-          ((tempoFinalHoras >= 12 &&
-            tempoFinalMunitos >= tempoAlmocoEmMunitos) ||
-            tempoFinalHoras > 12)
-        ) {
-          item.tempoAjustado = -1 * configuracoesHistoricoStorage.tempoAlmoco
-        }
-      }
+      setarConfiguracoesItemHistorico(item)
 
       this.historico.push(item)
 

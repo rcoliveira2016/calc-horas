@@ -1,23 +1,23 @@
 <template>
-    <GridBase :columns="columns" :data="store.historico">
+    <GridBase :columns="columns" :data="store.historico" @dblclick-cell="copiarValor">
         <template #td-name-acoes="{ item }">
             <BtnIcon class="tw-text-red-700" icon="ic:baseline-delete" @click="deletarIcone(item.uid)" />
         </template>
         <template #td-name-inicio="{ item }">
-            <GridWrapperColEditor key-name="uid" name-column="inicio" :item="item" :name-column-edit="store.colunaEditando"
-                :key-value="store.itemSelecionadoEditando" @focusin="focusin">
+            <GridWrapperColEditor key-name=" uid" name-column="inicio" :item="item"
+                :name-column-edit="store.colunaEditando" :key-value="store.itemSelecionadoEditando" @focusin="focusin">
                 {{ decimalToFormatHoursMinutos(item.tempoInicial) }}
                 <template #editor="{ item }">
-                    <FormsInputHours v-model="item.tempoInicial" focus @keyup.enter="focusout(item)" />
+                    <FormsInputHours v-model="item.tempoInicial" focus @blur="focusout(item)" />
                 </template>
             </GridWrapperColEditor>
         </template>
         <template #td-name-final="{ item }">
-            <GridWrapperColEditor key-name="uid" name-column="final" :item="item" :name-column-edit="store.colunaEditando"
-                :key-value="store.itemSelecionadoEditando" @focusin="focusin">
+            <GridWrapperColEditor key-name="uid" name-column="final" :item="item"
+                :name-column-edit="store.colunaEditando" :key-value="store.itemSelecionadoEditando" @focusin="focusin">
                 {{ decimalToFormatHoursMinutos(item.tempoFinal) }}
                 <template #editor="{ item }">
-                    <FormsInputHours v-model="item.tempoFinal" focus @keyup.enter="focusout(item)" />
+                    <FormsInputHours v-model="item.tempoFinal" focus @blur="focusout(item)" />
                 </template>
             </GridWrapperColEditor>
         </template>
@@ -52,9 +52,23 @@ const deletarIcone = (uid: string) => {
     store.removerItem(uid);
 }
 
-const focusin = (uid: string|number, nameColumn: string) => {
+const focusin = (uid: string | number, nameColumn: string) => {
     store.colunaEditando = nameColumn;
     store.itemSelecionadoEditando = uid as string;
+}
+
+const copiarValor = (_: Event, item: HistoricoItemState, column: GridColumnProps) => {
+    switch (column.name) {
+        case 'total':
+            navigator.clipboard.writeText(decimalToFormatHoursMinutos(somarTotal(item)));
+            break;
+        case 'formatoDecimal':
+            navigator.clipboard.writeText(somarTotal(item).toFixed(2));
+            break;
+        case 'formatoCustomizado':
+            navigator.clipboard.writeText(formatCustomHours(somarTotal(item), item.formato));
+            break;
+    }
 }
 
 const focusout = (item: HistoricoItemState) => {
@@ -85,12 +99,13 @@ const columns: GridColumnProps[] = [
         width: '120px'
     },
     {
-        name: 'formatoCustomizado',
-        label: 'f. customizado'
+        name: 'formatoDecimal',
+        label: 'f. decimal',
+        width: '120px'
     },
     {
-        name: 'formatoDecimal',
-        label: 'f. decimal'
+        name: 'formatoCustomizado',
+        label: 'f. customizado'
     },
     {
         name: 'tag',

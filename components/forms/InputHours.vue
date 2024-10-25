@@ -1,17 +1,17 @@
 <template>
     <span>
-        <div ref="divContent" tabindex="0" @click.self="focusInput" @focus="focusDivContent"
-            class="tw-flex tw-outline-1 tw-items-center tw-rounded-lg tw-border tw-border-neutral-200 dark:tw-border-white/10 tw-bg-gray-600 dark:tw-bg-gray-800 tw-p-3 tw-w-fit">
+        <div ref="divContent"
+            class="tw-w-fit tw-flex tw-outline-1 tw-items-center tw-rounded-lg tw-border tw-border-neutral-200 tw-overflow-hidden dark:tw-border-white/10 tw-bg-gray-600 dark:tw-bg-gray-800">
 
             <input ref="hoursInput" role="input-hours" maxlength="2" :value="hours" @input="inputHours"
                 @keydown="keydownInputs" @keyup.up="acrescentHours" @keyup.down="decrementHours"
                 @focus="focusEventInput" @blur="unfocusEventInput" @keyup="keyUpInputs"
-                class="tw-border-none tw-bg-inherit tw-w-8 tw-text-center focus:tw-outline-none" />
+                class="tw-w-9 tw-pl-3 tw-py-3 tw-rounded-lg tw-border-none tw-bg-inherit tw-text-center focus:tw-outline-none" />
             <span class="tw-px-none">:</span>
             <input ref="minutesInput" role="input-minutes" maxlength="2" :value="minutes" @input="inputMinutes"
                 @keydown="keydownInputs" @keyup.up="acrescentMinutes" @keyup.down="decrementMinutes"
                 @focus="focusEventInput" @blur="unfocusEventInput" @keyup="keyUpInputs"
-                class="tw-border-none tw-bg-inherit tw-w-8 tw-text-center focus:tw-outline-none" />
+                class="tw-w-9 tw-pr-3 tw-py-3 tw-rounded-lg  tw-border-none tw-bg-inherit tw-text-center focus:tw-outline-none" />
         </div>
     </span>
 </template>
@@ -122,9 +122,6 @@ const focusInput = () => {
     hoursInput.value?.focus();
 }
 
-const focusDivContent = () => {
-    hoursInput.value?.focus();
-}
 
 onMounted(() => {
     atributeValueInputs(props.modelValue)
@@ -162,7 +159,14 @@ const focusEventInput = () => {
     divContent.value?.classList.add('tw-outline');
 }
 
-const unfocusEventInput = () => {
+const unfocusEventInput = (event: FocusEvent) => {
+    const elRelated = event.relatedTarget as HTMLElement;
+    const el = event.target as HTMLElement;
+    if (elRelated !== null && elRelated.tagName === "INPUT" && el !== null && el.tagName === "INPUT") {
+        if (divContent.value?.contains(el) && divContent.value?.contains(elRelated)) return;
+    }
+
+    console.log('unfocusEventInput');
     divContent.value?.classList.remove('tw-outline');
     emits('blur');
 }

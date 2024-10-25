@@ -7,10 +7,11 @@
                 </colgroup>
                 <thead class="tw-border-b tw-border-neutral-200 tw-font-medium dark:tw-border-white/10">
                     <tr>
-                        <th scope="col" class="tw-px-2 tw-py-3 tw-text-base" v-for="column in columns" :key="column.name">
+                        <th scope="col" class="tw-px-2 tw-py-3 tw-text-base" v-for="column in columns"
+                            :key="column.name">
                             <span class="tw-text-surface dark:tw-text-white/50">| </span>
                             <span>
-                                {{ column.label}}
+                                {{ column.label }}
                             </span>
                         </th>
                     </tr>
@@ -18,8 +19,10 @@
                 <tbody>
                     <tr class="tw-border-b tw-border-neutral-200 dark:tw-border-white/10" v-for="(item, index) in data"
                         :key="index">
-                        <td class="tw-px-2 tw-py-3 tw-pl-4" v-for="column in columns" :key="column.name">
-                            <slot v-if="slots['td-name-'+column.name]" :name="'td-name-'+column.name" :item="item" />
+                        <td class="tw-px-2 tw-py-3 tw-pl-4" v-for="column in columns" :key="column.name"
+                            @dblclick="$emit('dblclick-cell', $event, item, column)">
+                            <slot v-if="slots['td-name-' + column.name]" :name="'td-name-' + column.name"
+                                :item="item" />
                             <template v-else>
                                 {{ item[column.name] }}
                             </template>
@@ -37,6 +40,8 @@ const { columns, data } = defineProps<{
     columns: GridColumnProps[]
     data: TGridDataItem[]
 }>()
-
+const emit = defineEmits<{
+    (e: 'dblclick-cell', event: Event, item: TGridDataItem, column: GridColumnProps): void
+}>();
 const slots = useSlots();
 </script>
