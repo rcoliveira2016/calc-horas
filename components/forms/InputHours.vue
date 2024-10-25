@@ -32,6 +32,11 @@ const props = defineProps<{
 
 const emits = defineEmits(['update:modelValue', 'focus', 'blur']);
 
+const lastKeyPressArrowX = {
+    positipo: -1,
+    roleInput: "",
+};
+
 onMounted(() => {
     if (props.focus) {
         focusInput();
@@ -56,21 +61,47 @@ const keydownInputs = (event: KeyboardEvent) => {
 }
 
 const keyUpInputs = (event: KeyboardEvent) => {
-    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+        lastKeyPressArrowX.roleInput = "";
+        lastKeyPressArrowX.positipo = -1;
+        return;
+    };
 
     const input = event.target as HTMLInputElement;
     const position = input.selectionStart;
-    if(input.role === "input-hours"){
-        if (position === 2) 
-            minutesInput.value?.focus();
-            minutesInput.value?.setSelectionRange(0,0,"none") 
+    if (input.role === "input-hours") {
+        if (position === 2) {
+            if (lastKeyPressArrowX.roleInput === "input-hours" && lastKeyPressArrowX.positipo === 2) {
+                minutesInput.value?.focus();
+                minutesInput.value?.setSelectionRange(0, 0, "none")
+                lastKeyPressArrowX.roleInput = "";
+                lastKeyPressArrowX.positipo = -1;
+                return;
+            }
+
+            lastKeyPressArrowX.roleInput = "input-hours";
+            lastKeyPressArrowX.positipo = 2;
+
+        }
+        return;
     }
 
-    if (input.role === "input-minutes") { 
+    if (input.role === "input-minutes") {
         if (position === 0) {
-            hoursInput.value?.focus();
+            if (lastKeyPressArrowX.roleInput === "input-minutes" && lastKeyPressArrowX.positipo === 0) {
+                hoursInput.value?.focus();
+                lastKeyPressArrowX.roleInput = "";
+                lastKeyPressArrowX.positipo = -1;
+                return;
+            }
+            lastKeyPressArrowX.roleInput = "input-minutes";
+            lastKeyPressArrowX.positipo = 0;
         }
+        return;
     }
+
+    lastKeyPressArrowX.roleInput = "";
+    lastKeyPressArrowX.positipo = -1;
 }
 
 const inputMinutes = (event: Event) => {
@@ -96,6 +127,9 @@ const focusDivContent = () => {
 }
 
 onMounted(() => {
+    atributeValueInputs(props.modelValue)
+})
+onUpdated(() => {
     atributeValueInputs(props.modelValue)
 })
 

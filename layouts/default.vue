@@ -38,7 +38,7 @@
         </div>
     </nav>
 
-    <div class=" tw-flex tw-justify-center">
+    <div class=" tw-flex tw-flex-col tw-justify-center tw-items-center">
         <slot />
     </div>
 </template>

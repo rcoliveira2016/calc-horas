@@ -1,11 +1,64 @@
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
+export default function (decimalHours: number, format: string): string {
+  if (!format || !decimalHours) return ''
 
-export default function (hours: number, format: string): string {
-    if (!format || !hours) return "";
-    
-    dayjs.extend(duration);
-    const dirationDays = dayjs.duration(hours, "hours");
-    
-    return dirationDays.format(format);
+  const totalHours = Math.floor(decimalHours)
+  const totalMinutes = Math.round((decimalHours - totalHours) * 60)
+  const totalDays = Math.floor(decimalHours / 24)
+  const totalWeeks = Math.floor(totalDays / 7)
+
+  const days = (totalDays % 30).toString().padStart(2, '0')
+
+  const weeks = totalWeeks.toString().padStart(2, '0')
+  const hours = Math.floor(decimalHours % 24)
+    .toString()
+    .padStart(2, '0')
+  const minutes = Math.floor(totalMinutes % 60)
+    .toString()
+    .padStart(2, '0')
+  const seconds = Math.floor((decimalHours * 3600) % 60)
+    .toString()
+    .padStart(2, '0')
+
+  const dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][
+    totalDays % 7
+  ]
+  const dayOfWeekFull = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ][totalDays % 7]
+
+  return format.replace(
+    /\[([^\]]+)\]|DD|HH|H|mm|m|SS|DDD|DDDD|WW/g,
+    (match, escapedText) => {
+      if (escapedText) return escapedText // Retorna o texto entre colchetes sem modificar
+
+      switch (match) {
+        case 'DD':
+          return days
+        case 'WW':
+          return weeks
+        case 'HH':
+          return hours
+        case 'H':
+          return parseInt(hours).toString()
+        case 'mm':
+          return minutes
+        case 'm':
+          return parseInt(minutes).toString()
+        case 'SS':
+          return seconds
+        case 'DDD':
+          return dayOfWeek
+        case 'DDDD':
+          return dayOfWeekFull
+        default:
+          return match
+      }
+    },
+  )
 }
