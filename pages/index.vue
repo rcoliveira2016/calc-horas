@@ -15,10 +15,16 @@
                 </div>
             </div>
             <div class="tw-flex tw-items-center tw-border-l-2 tw-border-neutral-200 dark:tw-border-white/10 tw-px-3">
-                <Btn variant="primary" text="Adicionar" icon="radix-icons:paper-plane" @click="store.addHistorico()" />
+                <Btn text="Adicionar" icon="radix-icons:paper-plane" @click="store.addHistorico()" />
             </div>
         </div>
         <div class="tw-w-[58rem] tw-mt-3">
+            <div role="toolbar" class="tw-py-4">
+                <Btn variant="secondary" text="Limpar" icon="radix-icons:eraser" @click="store.limparHistorico()" />
+                <span class="tw-text-xl tw-font-bold">
+                    Total Horas: {{decimalToFormatHoursMinutos(store.totalHistorico) }}
+                </span>
+            </div>
             <HistoricoHorasGrid />
         </div>
     </div>

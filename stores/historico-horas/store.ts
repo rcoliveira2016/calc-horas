@@ -1,35 +1,65 @@
-import { defineStore } from "pinia";
-import { TipoCalculo, type CalcularHorasState } from "./types";
+import { defineStore } from 'pinia'
+import setarConfiguracoesItemHistorico from '~/utils/historico-horas/setar-configuracoes-item-historico'
+import sumTotal from '~/utils/sum-total'
+import {
+  TipoCalculo,
+  type CalcularHorasState,
+  type HistoricoItemState,
+} from './types'
 
-export const useHistoricoHorasStore = defineStore("historico-horas", {
+export const useHistoricoHorasStore = defineStore('historico-horas', {
   state: (): CalcularHorasState => ({
     historico: [],
     tempoInicial: 0,
     tempoFinal: 0,
     tempoAjustado: 0,
     tipoCalculo: TipoCalculo.vazio,
-    tag: "",
-    formato: "",
+    tag: '',
+    formato: '',
+    colunaEditando: '',
+    itemSelecionadoEditando: '',
   }),
   getters: {
     totalResultado(): number {
-      if (this.tipoCalculo === TipoCalculo.somar) {
-        return Math.abs(this.tempoInicial + this.tempoFinal);
-      }
-      if (this.tipoCalculo === TipoCalculo.subtrair) {
-        return Math.abs(this.tempoInicial - this.tempoFinal);
-      }
-
-      return 0;
+      return sumTotal(this)
+    },
+    totalHistorico(): number {
+      return this.historico.reduce((acc, curr) => acc + sumTotal(curr), 0)
     },
   },
   actions: {
-    removerItem(uid: string) {
-      this.historico = this.historico.filter((item) => item.uid !== uid);
+    async inicializar() {
+      const { $historicoHorasStorage, $configuracoesHistoricoStorage } =
+        useNuxtApp()
+      const historico = await $historicoHorasStorage.getAll()
+      const configuracoes = await $configuracoesHistoricoStorage.get()
+
+      this.formato = configuracoes.formatacaoPadrao || ''
+
+      this.historico = historico.map((item) => ({
+        ...item,
+      }))
     },
-    addHistorico() {
-      if (this.tipoCalculo == TipoCalculo.vazio) return;
-      this.historico.push({
+    async removerItem(uid: string) {
+      this.historico = this.historico.filter((item) => item.uid !== uid)
+      const { $historicoHorasStorage } = useNuxtApp()
+      await $historicoHorasStorage.remove(uid)
+    },
+    async alterarItem(item: HistoricoItemState) {
+      const { $historicoHorasStorage } = useNuxtApp()
+      await $historicoHorasStorage.update(item)
+    },
+    async limparHistorico() {
+      const { $historicoHorasStorage } = useNuxtApp()
+      this.historico.forEach(
+        async (item) => await $historicoHorasStorage.remove(item.uid),
+      )
+      this.historico = []
+    },
+    async addHistorico() {
+      if (this.tipoCalculo == TipoCalculo.vazio) return
+
+      const item: HistoricoItemState = {
         uid: Date.now().toString(),
         tempoInicial: this.tempoInicial,
         tempoFinal: this.tempoFinal,
@@ -38,8 +68,14 @@ export const useHistoricoHorasStore = defineStore("historico-horas", {
         tag: this.tag,
         formato: this.formato,
         dataInclusao: new Date(),
-      });
-      console.log(this.historico);
+      }
+      const { $historicoHorasStorage } = useNuxtApp()
+
+      setarConfiguracoesItemHistorico(item)
+
+      this.historico.push(item)
+
+      $historicoHorasStorage.add(item)
     },
   },
-});
+})

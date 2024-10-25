@@ -30,18 +30,18 @@ const valueComboBox = computed<OptionType|undefined>({
 </script>
 
 <template>
-  <ComboboxRoot v-model="valueComboBox" class="relative" :display-value="(opt: OptionType) => opt.text">
+  <ComboboxRoot v-model="valueComboBox" class="tw-relative" :display-value="(opt: OptionType) => opt.text">
     <ComboboxAnchor
-      class="tw-min-w-[160px] tw-inline-flex tw-items-center tw-justify-between tw-rounded tw-px-[15px] tw-text-[13px] tw-leading-none tw-h-[35px] tw-gap-[5px] tw-bg-gray-600 tw-text-white tw-shadow-[0_2px_10px] tw-shadow-black/10 hover:tw-bg-mauve3 focus:tw-shadow-[0_0_0_2px] focus:tw-shadow-black data-[placeholder]:tw-text-grass9"
+      class="tw-min-w-[160px] tw-h-[48px] tw-rounded-lg tw-inline-flex tw-items-center tw-justify-between tw-px-[15px] tw-text-[13px] tw-leading-none tw-gap-[5px] tw-bg-gray-600  tw-shadow-[0_2px_10px] tw-shadow-black/10 hover:tw-bg-mauve3 focus:tw-shadow-[0_0_0_2px] focus:tw-shadow-black"
     >
       <ComboboxInput
-        class="!tw-bg-transparent tw-outline-none tw-text-white tw-h-full selection:tw-bg-gray-700 tw-placeholder-white tw-bg-gray-600"
+        class="!tw-bg-transparent tw-outline-none  tw-h-full selection:tw-bg-gray-700  tw-bg-gray-600 "
         :placeholder="placeholder"
       />
       <ComboboxTrigger>
         <Icon
           icon="radix-icons:chevron-down"
-          class="tw-h-4 tw-w-4 tw-text-white"
+          class="tw-h-4 tw-w-4 "
           tabindex="0"
         />
       </ComboboxTrigger>
@@ -51,13 +51,13 @@ const valueComboBox = computed<OptionType|undefined>({
     >
       <ComboboxViewport class="p-[5px]">
         <ComboboxEmpty
-          class="tw-text-white text-xs font-medium text-center py-2"
+          class=" text-xs font-medium text-center py-2"
         />
 
         <ComboboxItem
           v-for="(option, index) in props.options"
           :key="index"
-          class="tw-text-[13px] tw-leading-none tw-text-white tw-rounded-[3px] tw-flex tw-items-center tw-h-[25px] tw-pr-[35px] tw-pl-[25px] tw-relative tw-select-none data-[disabled]:tw-text-white data-[disabled]:tw-pointer-events-none data-[highlighted]:tw-outline-none data-[highlighted]:tw-bg-blue data-[highlighted]:tw-text-write"
+          class="tw-text-[13px] tw-leading-none tw-rounded-[3px] tw-flex tw-items-center tw-h-[25px] tw-pr-[35px] tw-pl-[25px] tw-relative tw-select-none data-[disabled]: data-[disabled]:tw-pointer-events-none data-[highlighted]:tw-outline-none data-[highlighted]:tw-bg-blue data-[highlighted]:tw-text-write"
           :value="option"
         >
           <ComboboxItemIndicator
