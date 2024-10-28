@@ -30,6 +30,25 @@
         <template #td-name-formatoCustomizado="{ item }">
             {{ formatCustomHours(somarTotal(item), item.formato) }}
         </template>
+        <template #td-name-tag="{ item }">
+            <GridWrapperColEditor key-name="uid" name-column="tag" :item="item" :name-column-edit="store.colunaEditando"
+                :key-value="store.itemSelecionadoEditando" @focusin="focusin">
+                {{ item.tag }}
+                <template #editor="{ item }">
+                    <FormsInputText v-model="item.tag" focus @blur="focusout(item)" />
+                </template>
+            </GridWrapperColEditor>
+        </template>
+        <template #td-name-tempoAjustado="{ item }">
+            <GridWrapperColEditor key-name="uid" name-column="tempoAjustado" :item="item"
+                :name-column-edit="store.colunaEditando" :key-value="store.itemSelecionadoEditando"
+                @focusin="focusinTempoAjustado">
+                {{ decimalToFormatHoursMinutos(item.tempoAjustado) }}
+                <template v-if="itemEdicao" #editor="{ item }">
+                    <FormsInputHours v-model="itemEdicao!.tempoAjustado" focus @blur="focusoutTempoAjustado(item)" />
+                </template>
+            </GridWrapperColEditor>
+        </template>
     </GridBase>
 </template>
 <script setup lang="ts">
@@ -39,7 +58,7 @@ import { type HistoricoItemState } from '~/stores/historico-horas/types';
 import sumTotal from '~/utils/sum-total';
 
 const store = useHistoricoHorasStore();
-
+const itemEdicao = ref<HistoricoItemState>();
 onMounted(() => {
     store.inicializar();
 })
@@ -52,7 +71,18 @@ const deletarIcone = (uid: string) => {
     store.removerItem(uid);
 }
 
+const focusinTempoAjustado = (uid: string | number, nameColumn: string) => {
+    let item = store.historico.find((item) => item.uid === uid);
+    if (item === undefined) return;
+    itemEdicao.value = { ...item }
+    itemEdicao.value.tempoAjustado = Math.abs(item.tempoAjustado);
+    nextTick(() => {
+        focusin(uid, nameColumn);
+    })
+}
+
 const focusin = (uid: string | number, nameColumn: string) => {
+
     store.colunaEditando = nameColumn;
     store.itemSelecionadoEditando = uid as string;
 }
@@ -69,6 +99,12 @@ const copiarValor = (_: Event, item: HistoricoItemState, column: GridColumnProps
             navigator.clipboard.writeText(formatCustomHours(somarTotal(item), item.formato));
             break;
     }
+}
+
+const focusoutTempoAjustado = (item: HistoricoItemState) => {
+    item.tempoAjustado = itemEdicao.value!.tempoAjustado * - 1;
+    itemEdicao.value = undefined;
+    focusout(item);
 }
 
 const focusout = (item: HistoricoItemState) => {
@@ -111,6 +147,10 @@ const columns: GridColumnProps[] = [
     {
         name: 'tag',
         label: 'tag'
+    },
+    {
+        name: 'tempoAjustado',
+        label: 'tempo ajustado'
     }
 ];
 </script>

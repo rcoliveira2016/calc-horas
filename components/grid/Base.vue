@@ -19,8 +19,9 @@
                 <tbody>
                     <tr class="tw-border-b tw-border-neutral-200 dark:tw-border-white/10" v-for="(item, index) in data"
                         :key="index">
-                        <td class="tw-px-2 tw-py-3 tw-pl-4" v-for="column in columns" :key="column.name"
-                            @dblclick="$emit('dblclick-cell', $event, item, column)">
+                        <td class="tw-px-2 tw-py-3 tw-pl-4 focus:tw-border focus:tw-border-neutral-300 dark00 focus:dark:tw-border-white/20"
+                            tabindex="0" v-for="column in columns" :key="column.name"
+                            @dblclick="$emit('dblclick-cell', $event, item.value, column)">
                             <slot v-if="slots['td-name-' + column.name]" :name="'td-name-' + column.name"
                                 :item="item" />
                             <template v-else>

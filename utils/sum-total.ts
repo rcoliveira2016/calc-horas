@@ -8,7 +8,7 @@ export default (item: {
 }) => {
   const tempoAjustado = item.tempoAjustado || 0
   if (item.tipoCalculo === TipoCalculo.somar) {
-    return Math.abs(item.tempoInicial + item.tempoFinal + tempoAjustado)
+    return Math.abs(item.tempoInicial + item.tempoFinal) + tempoAjustado
   }
   if (item.tipoCalculo === TipoCalculo.subtrair) {
     return Math.abs(item.tempoInicial - item.tempoFinal) + tempoAjustado
