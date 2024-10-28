@@ -105,7 +105,8 @@ const columns: GridColumnProps[] = [
     },
     {
         name: 'formatoCustomizado',
-        label: 'f. customizado'
+        label: 'f. customizado',
+        width: '150px'
     },
     {
         name: 'tag',

@@ -9,9 +9,7 @@ export default function (decimalHours: number, format: string): string {
   const days = (totalDays % 30).toString().padStart(2, '0')
 
   const weeks = totalWeeks.toString().padStart(2, '0')
-  const hours = Math.floor(decimalHours % 24)
-    .toString()
-    .padStart(2, '0')
+  const hours = totalHours.toString().padStart(2, '0')
   const minutes = Math.floor(totalMinutes % 60)
     .toString()
     .padStart(2, '0')
@@ -31,7 +29,7 @@ export default function (decimalHours: number, format: string): string {
     'Friday',
     'Saturday',
   ][totalDays % 7]
-
+  console.log(hours, minutes)
   return format.replace(
     /\[([^\]]+)\]|DD|HH|H|mm|m|SS|DDD|DDDD|WW/g,
     (match, escapedText) => {

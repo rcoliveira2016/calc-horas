@@ -71,7 +71,7 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
       }
       const { $historicoHorasStorage } = useNuxtApp()
 
-      setarConfiguracoesItemHistorico(item)
+      await setarConfiguracoesItemHistorico(item)
 
       this.historico.push(item)
 

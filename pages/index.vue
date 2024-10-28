@@ -5,7 +5,8 @@
                 <div class="tw-flex tw-gap-3 tw-items-center">
                     <FormsInputHours v-model="store.tempoInicial" />
                     <FormsInputHours v-model="store.tempoFinal" />
-                    <FormsComboBox v-model="store.tipoCalculo" :options="options" placeholder="Tipo de Ação" />
+                    <FormsComboBox class="tw-w-[150px]" v-model="store.tipoCalculo" :options="options"
+                        placeholder="Tipo de Ação" />
                     <span>Horas: {{ decimalToFormatHoursMinutos(store.totalResultado) }} </span>
                 </div>
                 <div class="tw-flex tw-gap-3 tw-items-center">
@@ -22,7 +23,7 @@
             <div role="toolbar" class="tw-py-4">
                 <Btn variant="secondary" text="Limpar" icon="radix-icons:eraser" @click="store.limparHistorico()" />
                 <span class="tw-text-xl tw-font-bold">
-                    Total Horas: {{decimalToFormatHoursMinutos(store.totalHistorico) }}
+                    Total Horas: {{ decimalToFormatHoursMinutos(store.totalHistorico) }}
                 </span>
             </div>
             <HistoricoHorasGrid />
