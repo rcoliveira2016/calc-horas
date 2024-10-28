@@ -14,9 +14,9 @@
                         class="dark:tw-text-white tw-font-medium tw-flex tw-flex-col tw-p-4 md:tw-p-0 tw-mt-4 tw-border tw-rounded-lg md:tw-flex-row md:tw-space-x-8 tw-rtl:tw-space-x-reverse md:tw-mt-0 md:tw-border-0 tw-dark:tw-bg-gray-800 md:tw-dark:tw-bg-gray-900 tw-dark:tw-border-gray-700">
 
                         <li>
-                            <a href="#"
-                                class="tw-block tw-py-2 tw-px-3 tw-rounded tw-hover:bg-gray-100 md:tw-hover:bg-transparent md:tw-border-0 md:tw-hover:text-blue-700 md:tw-p-0 dark:tw-text-white md:tw-dark:tw-hover:text-blue-500 dark:tw-hover:bg-gray-700 dark:tw-hover:text-white=">
-                                Ultilitarios</a>
+                            <NuxtLink to="/ultis" class="tw-flex tw-items-center">
+                                Ultilitarios
+                            </NuxtLink>
                         </li>
                     </ul>
                 </div>
