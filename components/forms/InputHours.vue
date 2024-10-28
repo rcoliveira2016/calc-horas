@@ -1,7 +1,7 @@
 <template>
     <span>
         <div ref="divContent"
-            class="tw-w-fit tw-flex tw-outline-1 tw-items-center tw-rounded-lg tw-border tw-border-neutral-200 tw-overflow-hidden dark:tw-border-white/10 tw-bg-gray-600 dark:tw-bg-gray-800">
+            class="tw-w-fit tw-flex tw-overflow-hidden tw-outline-1 tw-items-center tw-rounded-lg tw-border tw-border-neutral-200 dark:tw-border-white/10 tw-bg-gray-600 dark:tw-bg-gray-800">
 
             <input ref="hoursInput" role="input-hours" maxlength="2" :value="hours" @input="inputHours"
                 @keydown="keydownInputs" @keyup.up="acrescentHours" @keyup.down="decrementHours"
@@ -17,6 +17,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue';
+import debounce from 'lodash.debounce';
 const divContent = ref<HTMLElement>();
 const hours = ref("");
 const minutes = ref("");
@@ -32,10 +33,12 @@ const props = defineProps<{
 
 const emits = defineEmits(['update:modelValue', 'focus', 'blur']);
 
-const lastKeyPressArrowX = {
+const lastKeyPressArrowXDefault = {
     positipo: -1,
     roleInput: "",
 };
+
+const lastKeyPressArrowX = { ...lastKeyPressArrowXDefault };
 
 onMounted(() => {
     if (props.focus) {
@@ -62,61 +65,59 @@ const keydownInputs = (event: KeyboardEvent) => {
 
 const keyUpInputs = (event: KeyboardEvent) => {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
-        lastKeyPressArrowX.roleInput = "";
-        lastKeyPressArrowX.positipo = -1;
+        lastKeyPressArrowX = { ...lastKeyPressArrowXDefault };
         return;
     };
 
     const input = event.target as HTMLInputElement;
     const position = input.selectionStart;
     if (input.role === "input-hours") {
-        if (position === 2) {
-            if (lastKeyPressArrowX.roleInput === "input-hours" && lastKeyPressArrowX.positipo === 2) {
-                minutesInput.value?.focus();
-                minutesInput.value?.setSelectionRange(0, 0, "none")
-                lastKeyPressArrowX.roleInput = "";
-                lastKeyPressArrowX.positipo = -1;
-                return;
-            }
-
-            lastKeyPressArrowX.roleInput = "input-hours";
-            lastKeyPressArrowX.positipo = 2;
-
+        if (position !== 2) {
+            lastKeyPressArrowX = { ...lastKeyPressArrowXDefault };
+            return;
         }
+
+        if (lastKeyPressArrowX.roleInput === "input-hours" && lastKeyPressArrowX.positipo === 2) {
+            minutesInput.value?.focus();
+            minutesInput.value?.setSelectionRange(0, 0, "none")
+            lastKeyPressArrowX = { ...lastKeyPressArrowXDefault };
+            return;
+        }
+
+        lastKeyPressArrowX.roleInput = "input-hours";
+        lastKeyPressArrowX.positipo = 2;
         return;
     }
 
     if (input.role === "input-minutes") {
-        if (position === 0) {
-            if (lastKeyPressArrowX.roleInput === "input-minutes" && lastKeyPressArrowX.positipo === 0) {
-                hoursInput.value?.focus();
-                lastKeyPressArrowX.roleInput = "";
-                lastKeyPressArrowX.positipo = -1;
-                return;
-            }
-            lastKeyPressArrowX.roleInput = "input-minutes";
-            lastKeyPressArrowX.positipo = 0;
+        if (position !== 0) {
+            lastKeyPressArrowX = { ...lastKeyPressArrowXDefault };
+            return;
         }
+        if (lastKeyPressArrowX.roleInput === "input-minutes" && lastKeyPressArrowX.positipo === 0) {
+            hoursInput.value?.focus();
+            lastKeyPressArrowX = { ...lastKeyPressArrowXDefault };
+            return;
+        }
+        lastKeyPressArrowX.roleInput = "input-minutes";
+        lastKeyPressArrowX.positipo = 0;
         return;
     }
 
-    lastKeyPressArrowX.roleInput = "";
-    lastKeyPressArrowX.positipo = -1;
+    lastKeyPressArrowX = { ...lastKeyPressArrowXDefault };
 }
-
-const inputMinutes = (event: Event) => {
+const timeoutDebounce = 800;
+const inputMinutes = debounce((event: Event) => {
     const el = event.target as HTMLInputElement;
     if (Number(el.value) > 59) el.value = '59';
-
     minutes.value = el.value;
     updateValue();
-}
-const inputHours = (event: Event) => {
+}, timeoutDebounce)
+const inputHours = debounce((event: Event) => {
     const el = event.target as HTMLInputElement;
-
     hours.value = el.value;
     updateValue();
-}
+}, timeoutDebounce)
 
 const focusInput = () => {
     hoursInput.value?.focus();
