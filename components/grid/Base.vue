@@ -21,7 +21,7 @@
                         :key="index">
                         <td class="tw-px-2 tw-py-3 tw-pl-4 focus:tw-border focus:tw-border-neutral-300 dark00 focus:dark:tw-border-white/20"
                             tabindex="0" v-for="column in columns" :key="column.name"
-                            @dblclick="$emit('dblclick-cell', $event, item.value, column)">
+                            @dblclick="$emit('dblclick-cell', $event, item, column)">
                             <slot v-if="slots['td-name-' + column.name]" :name="'td-name-' + column.name"
                                 :item="item" />
                             <template v-else>

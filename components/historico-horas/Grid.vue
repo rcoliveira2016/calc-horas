@@ -4,8 +4,9 @@
             <BtnIcon class="tw-text-red-700" icon="ic:baseline-delete" @click="deletarIcone(item.uid)" />
         </template>
         <template #td-name-inicio="{ item }">
-            <GridWrapperColEditor key-name=" uid" name-column="inicio" :item="item"
-                :name-column-edit="store.colunaEditando" :key-value="store.itemSelecionadoEditando" @focusin="focusin">
+            <GridWrapperColEditor key-name="uid" name-column="inicio" :item="item"
+                :name-column-edit="store.colunaEditando" :key-value="store.itemSelecionadoEditando"
+                @focusin="abrirEdicao">
                 {{ decimalToFormatHoursMinutos(item.tempoInicial) }}
                 <template #editor="{ item }">
                     <FormsInputHours v-model="item.tempoInicial" focus @blur="focusout(item)" />
@@ -14,7 +15,8 @@
         </template>
         <template #td-name-final="{ item }">
             <GridWrapperColEditor key-name="uid" name-column="final" :item="item"
-                :name-column-edit="store.colunaEditando" :key-value="store.itemSelecionadoEditando" @focusin="focusin">
+                :name-column-edit="store.colunaEditando" :key-value="store.itemSelecionadoEditando"
+                @focusin="abrirEdicao">
                 {{ decimalToFormatHoursMinutos(item.tempoFinal) }}
                 <template #editor="{ item }">
                     <FormsInputHours v-model="item.tempoFinal" focus @blur="focusout(item)" />
@@ -32,7 +34,7 @@
         </template>
         <template #td-name-tag="{ item }">
             <GridWrapperColEditor key-name="uid" name-column="tag" :item="item" :name-column-edit="store.colunaEditando"
-                :key-value="store.itemSelecionadoEditando" @focusin="focusin">
+                :key-value="store.itemSelecionadoEditando">
                 {{ item.tag }}
                 <template #editor="{ item }">
                     <FormsInputText v-model="item.tag" focus @blur="focusout(item)" />
@@ -41,8 +43,7 @@
         </template>
         <template #td-name-tempoAjustado="{ item }">
             <GridWrapperColEditor key-name="uid" name-column="tempoAjustado" :item="item"
-                :name-column-edit="store.colunaEditando" :key-value="store.itemSelecionadoEditando"
-                @focusin="focusinTempoAjustado">
+                :name-column-edit="store.colunaEditando" :key-value="store.itemSelecionadoEditando">
                 {{ decimalToFormatHoursMinutos(item.tempoAjustado) }}
                 <template v-if="itemEdicao" #editor="{ item }">
                     <FormsInputHours v-model="itemEdicao!.tempoAjustado" focus @blur="focusoutTempoAjustado(item)" />
@@ -71,17 +72,18 @@ const deletarIcone = (uid: string) => {
     store.removerItem(uid);
 }
 
-const focusinTempoAjustado = (uid: string | number, nameColumn: string) => {
+const abrirEdicaoTempoAjustado = (uid: string | number, nameColumn: string) => {
     let item = store.historico.find((item) => item.uid === uid);
     if (item === undefined) return;
     itemEdicao.value = { ...item }
     itemEdicao.value.tempoAjustado = Math.abs(item.tempoAjustado);
     nextTick(() => {
-        focusin(uid, nameColumn);
+        abrirEdicao(uid, nameColumn);
     })
 }
 
-const focusin = (uid: string | number, nameColumn: string) => {
+const abrirEdicao = (uid: string | number | undefined, nameColumn: string) => {
+    if (!uid) return;
 
     store.colunaEditando = nameColumn;
     store.itemSelecionadoEditando = uid as string;
@@ -97,6 +99,12 @@ const copiarValor = (_: Event, item: HistoricoItemState, column: GridColumnProps
             break;
         case 'formatoCustomizado':
             navigator.clipboard.writeText(formatCustomHours(somarTotal(item), item.formato));
+            break;
+        case 'tempoAjustado':
+            abrirEdicaoTempoAjustado(item.uid, column.name);
+            break;
+        case 'tag':
+            abrirEdicao(item.uid, column.name);
             break;
     }
 }

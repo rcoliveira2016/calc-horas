@@ -16,8 +16,8 @@
     </span>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue';
 import debounce from 'lodash.debounce';
+import { ref } from 'vue';
 const divContent = ref<HTMLElement>();
 const hours = ref("");
 const minutes = ref("");
@@ -38,7 +38,7 @@ const lastKeyPressArrowXDefault = {
     roleInput: "",
 };
 
-const lastKeyPressArrowX = { ...lastKeyPressArrowXDefault };
+let lastKeyPressArrowX = { ...lastKeyPressArrowXDefault };
 
 onMounted(() => {
     if (props.focus) {
@@ -167,7 +167,6 @@ const unfocusEventInput = (event: FocusEvent) => {
         if (divContent.value?.contains(el) && divContent.value?.contains(elRelated)) return;
     }
 
-    console.log('unfocusEventInput');
     divContent.value?.classList.remove('tw-outline');
     emits('blur');
 }

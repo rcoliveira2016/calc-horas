@@ -8,7 +8,7 @@
 import type { GridDataItem } from './types';
 
 const emit = defineEmits<{
-    (e: 'focusin', value: string|number, nameColumn: string): void,
+    (e: 'focusin', value: string | number, nameColumn: string): void,
 }>();
 
 const { item, keyName, nameColumnEdit, nameColumn, keyValue } = defineProps<{
