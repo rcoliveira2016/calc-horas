@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import setarConfiguracoesItemHistorico from '~/utils/historico-horas/setar-configuracoes-item-historico'
 import sumTotal from '~/utils/sum-total'
+import { useNotificationsStore } from '../ui/notifications/store'
 import {
   TipoCalculo,
   type CalcularHorasState,
@@ -59,7 +60,10 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
       this.historico = []
     },
     async addHistorico() {
-      if (this.tipoCalculo == TipoCalculo.vazio) return
+      const store = useNotificationsStore()
+      if (this.tipoCalculo == TipoCalculo.vazio) {
+        return
+      }
 
       const item: HistoricoItemState = {
         uid: Date.now().toString(),
@@ -78,6 +82,15 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
       this.historico.push(item)
 
       $historicoHorasStorage.add(item)
+
+      store.addNotifications({
+        description: 'item adicionado com sucesso',
+        title: 'sucesso',
+        type: 'success',
+        open: true,
+        duration: 3000,
+        id: Date.now(),
+      })
     },
   },
 })

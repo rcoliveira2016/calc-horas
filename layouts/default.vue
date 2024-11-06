@@ -41,6 +41,7 @@
     <div class=" tw-flex tw-flex-col tw-justify-center tw-items-center">
         <slot />
     </div>
+    <UiNotificationsProvider />
 </template>
 <script setup lang="ts">
 useHead({
