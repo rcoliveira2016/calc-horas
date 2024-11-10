@@ -94,15 +94,15 @@ const copiarValor = (_: Event, item: HistoricoItemState, column: GridColumnProps
     switch (column.name) {
         case 'total':
             navigator.clipboard.writeText(decimalToFormatHoursMinutos(somarTotal(item)));
-            useNotificationSuccess('total copiado com sucesso', 'sucesso');
+            useNotificationSuccess('sucesso', 'total copiado com sucesso');
             break;
         case 'formatoDecimal':
             navigator.clipboard.writeText(somarTotal(item).toFixed(2));
-            useNotificationSuccess('total copiado com sucesso', 'sucesso');
+            useNotificationSuccess('sucesso', 'total copiado com sucesso');
             break;
         case 'formatoCustomizado':
             navigator.clipboard.writeText(formatCustomHours(somarTotal(item), item.formato));
-            useNotificationSuccess('total copiado com sucesso', 'sucesso');
+            useNotificationSuccess('sucesso', 'total copiado com sucesso');
             break;
         case 'tempoAjustado':
             abrirEdicaoTempoAjustado(item.uid, column.name);

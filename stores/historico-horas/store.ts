@@ -51,7 +51,7 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
     async alterarItem(item: HistoricoItemState) {
       const { $historicoHorasStorage } = useNuxtApp()
       await $historicoHorasStorage.update(item)
-      useNotificationSuccess('item alterado com sucesso', 'sucesso')
+      useNotificationSuccess('sucesso', 'item alterado com sucesso')
     },
     async limparHistorico() {
       const { $historicoHorasStorage } = useNuxtApp()
@@ -83,7 +83,7 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
 
       $historicoHorasStorage.add(item)
 
-      useNotificationSuccess('item adicionado com sucesso', 'sucesso')
+      useNotificationSuccess('sucesso', 'item adicionado com sucesso')
     },
   },
 })
