@@ -56,6 +56,7 @@
 import type { GridColumnProps } from '~/components/grid/types';
 import { useHistoricoHorasStore } from '~/stores/historico-horas/store';
 import { type HistoricoItemState } from '~/stores/historico-horas/types';
+import { useNotificationSuccess } from '~/composables/notifications/use-notification'
 import sumTotal from '~/utils/sum-total';
 
 const store = useHistoricoHorasStore();
@@ -93,12 +94,15 @@ const copiarValor = (_: Event, item: HistoricoItemState, column: GridColumnProps
     switch (column.name) {
         case 'total':
             navigator.clipboard.writeText(decimalToFormatHoursMinutos(somarTotal(item)));
+            useNotificationSuccess('total copiado com sucesso', 'sucesso');
             break;
         case 'formatoDecimal':
             navigator.clipboard.writeText(somarTotal(item).toFixed(2));
+            useNotificationSuccess('total copiado com sucesso', 'sucesso');
             break;
         case 'formatoCustomizado':
             navigator.clipboard.writeText(formatCustomHours(somarTotal(item), item.formato));
+            useNotificationSuccess('total copiado com sucesso', 'sucesso');
             break;
         case 'tempoAjustado':
             abrirEdicaoTempoAjustado(item.uid, column.name);

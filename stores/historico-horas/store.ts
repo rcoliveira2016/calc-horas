@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
+import { useNotificationSuccess } from '~/composables/notifications/use-notification'
 import setarConfiguracoesItemHistorico from '~/utils/historico-horas/setar-configuracoes-item-historico'
 import sumTotal from '~/utils/sum-total'
-import { useNotificationsStore } from '../ui/notifications/store'
 import {
   TipoCalculo,
   type CalcularHorasState,
@@ -51,6 +51,7 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
     async alterarItem(item: HistoricoItemState) {
       const { $historicoHorasStorage } = useNuxtApp()
       await $historicoHorasStorage.update(item)
+      useNotificationSuccess('item alterado com sucesso', 'sucesso')
     },
     async limparHistorico() {
       const { $historicoHorasStorage } = useNuxtApp()
@@ -60,7 +61,6 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
       this.historico = []
     },
     async addHistorico() {
-      const store = useNotificationsStore()
       if (this.tipoCalculo == TipoCalculo.vazio) {
         return
       }
@@ -83,14 +83,7 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
 
       $historicoHorasStorage.add(item)
 
-      store.addNotifications({
-        description: 'item adicionado com sucesso',
-        title: 'sucesso',
-        type: 'success',
-        open: true,
-        duration: 3000,
-        id: Date.now(),
-      })
+      useNotificationSuccess('item adicionado com sucesso', 'sucesso')
     },
   },
 })
