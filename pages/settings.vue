@@ -36,7 +36,7 @@ onMounted(() => {
         <h1 class="tw-text-3xl tw-text-left tw-mb-4">Configurações</h1>
         <section class="tw-relative tw-p-4 tw-border-2 tw-border-neutral-200 tw-rounded-lg dark:tw-border-white/10">
             <h3 class="tw-absolute tw-top-[-15px] tw-bg-inherit">Configurações Historico</h3>
-            <section class="tw-flex tw-flex-row">
+            <section class="tw-grid tw-grid-cols-3">
                 <fieldset class="tw-mb-[15px] tw-w-full tw-flex tw-flex-col tw-justify-start">
                     <label class="tw-leading-none tw-mb-2.5 tw-block" for="formatacaoPadrao">
                         Formatação
