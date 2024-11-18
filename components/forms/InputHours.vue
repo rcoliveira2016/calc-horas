@@ -52,7 +52,17 @@ const updateValue = () => {
     emits('update:modelValue', valor);
 }
 
-const keydownInputs = (event: KeyboardEvent) => {
+const keydownInputs = async (event: KeyboardEvent) => {
+
+    if (event.ctrlKey && event.key === 'c') {
+        window.navigator.clipboard.writeText(`${hours.value}:${minutes.value}`);
+    }
+    if (event.ctrlKey && event.key === 'v') {
+        const text = await window.navigator.clipboard.readText();
+        const valor = stringFormatHoursMinutesToDecimal(text);
+        emits('update:modelValue', valor);
+    }
+
     if (
         event.key === "Backspace" || event.key === "Delete" || event.key === "Tab" || event.key === "ArrowLeft" ||
         event.key === "ArrowRight"
