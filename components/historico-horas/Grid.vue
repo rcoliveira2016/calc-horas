@@ -30,7 +30,7 @@
             {{ somarTotal(item).toFixed(2) }}
         </template>
         <template #td-name-formatoCustomizado="{ item }">
-            {{ formatCustomHours(somarTotal(item), item.formato) }}
+            {{ formatCustomHours(somarTotal(item), store.formato) }}
         </template>
         <template #td-name-tag="{ item }">
             <GridWrapperColEditor key-name="uid" name-column="tag" :item="item" :name-column-edit="store.colunaEditando"
@@ -54,9 +54,9 @@
 </template>
 <script setup lang="ts">
 import type { GridColumnProps } from '~/components/grid/types';
+import { useNotificationSuccess } from '~/composables/notifications/use-notification';
 import { useHistoricoHorasStore } from '~/stores/historico-horas/store';
 import { type HistoricoItemState } from '~/stores/historico-horas/types';
-import { useNotificationSuccess } from '~/composables/notifications/use-notification'
 import sumTotal from '~/utils/sum-total';
 
 const store = useHistoricoHorasStore();

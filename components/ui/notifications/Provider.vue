@@ -27,7 +27,7 @@ const cssTostRoot = (notification: NotificationsItemState) => {
       :class="cssTostRoot(event)">
 
       <ToastTitle class="[grid-area:_title] tw-mb-[5px] tw-font-medium tw-text-slate12 tw-text-[15px]">
-        {{ event.title }} - {{ event.duration }}
+        {{ event.title }}
       </ToastTitle>
       <ToastDescription>
         {{ event.description }}

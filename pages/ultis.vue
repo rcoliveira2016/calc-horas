@@ -1,5 +1,5 @@
 <template>
-  <section class="tw-w-4/5">
+  <section class="tw-min-w-[50%]">
     <h1 class="tw-text-3xl tw-text-left tw-mb-4">Ultilitarios</h1>
     <div class="tw-flex tw-flex-col tw-gap-4">
       <div class="tw-flex tw-gap-3 tw-items-center">

@@ -9,7 +9,7 @@ const props = defineProps<{
 
 <template>
   <fieldset class="tw-flex tw-gap-2 tw-items-center">
-    <label class="tw-text-white tw-text-[15px] tw-leading-none tw-pr-[15px] tw-select-none">
+    <label v-if="props.label" class="tw-text-white tw-text-[15px] tw-leading-none tw-pr-[15px] tw-select-none">
       {{ props.label }}
     </label>
     <SwitchRoot v-model:checked="modelValue"

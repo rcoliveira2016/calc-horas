@@ -72,7 +72,6 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
         tempoAjustado: this.tempoAjustado,
         tipoCalculo: this.tipoCalculo,
         tag: this.tag,
-        formato: this.formato,
         dataInclusao: new Date(),
       }
       const { $historicoHorasStorage } = useNuxtApp()
