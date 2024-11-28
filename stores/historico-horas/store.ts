@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useNotificationSuccess } from '~/composables/notifications/use-notification'
 import setarConfiguracoesItemHistorico from '~/utils/historico-horas/setar-configuracoes-item-historico'
 import sumTotal from '~/utils/sum-total'
 import {
@@ -35,7 +36,9 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
       const configuracoes = await $configuracoesHistoricoStorage.get()
 
       this.formato = configuracoes.formatacaoPadrao || ''
-
+      this.tipoCalculo = TipoCalculo.subtrair
+      this.tempoInicial = 8.5
+      this.tempoFinal = 10
       this.historico = historico.map((item) => ({
         ...item,
       }))
@@ -48,6 +51,7 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
     async alterarItem(item: HistoricoItemState) {
       const { $historicoHorasStorage } = useNuxtApp()
       await $historicoHorasStorage.update(item)
+      useNotificationSuccess('sucesso', 'item alterado com sucesso')
     },
     async limparHistorico() {
       const { $historicoHorasStorage } = useNuxtApp()
@@ -57,7 +61,9 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
       this.historico = []
     },
     async addHistorico() {
-      if (this.tipoCalculo == TipoCalculo.vazio) return
+      if (this.tipoCalculo == TipoCalculo.vazio) {
+        return
+      }
 
       const item: HistoricoItemState = {
         uid: Date.now().toString(),
@@ -66,7 +72,6 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
         tempoAjustado: this.tempoAjustado,
         tipoCalculo: this.tipoCalculo,
         tag: this.tag,
-        formato: this.formato,
         dataInclusao: new Date(),
       }
       const { $historicoHorasStorage } = useNuxtApp()
@@ -76,6 +81,8 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
       this.historico.push(item)
 
       $historicoHorasStorage.add(item)
+
+      useNotificationSuccess('sucesso', 'item adicionado com sucesso')
     },
   },
 })

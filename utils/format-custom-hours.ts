@@ -29,7 +29,6 @@ export default function (decimalHours: number, format: string): string {
     'Friday',
     'Saturday',
   ][totalDays % 7]
-  console.log(hours, minutes)
   return format.replace(
     /\[([^\]]+)\]|DD|HH|H|mm|m|SS|DDD|DDDD|WW/g,
     (match, escapedText) => {

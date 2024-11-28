@@ -56,6 +56,5 @@ export type HistoricoStorage = {
   tempoAjustado: number
   tipoCalculo: TipoCalculo
   tag: string
-  formato: string
   dataInclusao: Date
 }
