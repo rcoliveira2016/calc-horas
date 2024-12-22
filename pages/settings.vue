@@ -37,26 +37,15 @@ onMounted(() => {
         <section class="tw-relative tw-p-4 tw-border-2 tw-border-neutral-200 tw-rounded-lg dark:tw-border-white/10">
             <h3 class="tw-absolute tw-top-[-15px] tw-bg-inherit">Configurações Historico</h3>
             <section class="tw-grid tw-grid-cols-3">
-                <fieldset class="tw-mb-[15px] tw-w-full tw-flex tw-flex-col tw-justify-start">
-                    <label class="tw-leading-none tw-mb-2.5 tw-block" for="formatacaoPadrao">
-                        Formatação
-                        Padrão </label>
-                    <FormsInputText id="formatacaoPadrao" name="formatacaoPadrao" placeholder="Formatação Padrão"
-                        v-model="formatacaoPadrao" />
-                </fieldset>
-                <fieldset class="tw-mb-[15px] tw-w-full tw-flex tw-flex-col tw-justify-start">
-                    <label class="tw-leading-none tw-mb-2.5 tw-block" for="tempoAlmoco">
-                        Tempo de almoço
-                    </label>
-                    <FormsInputHours v-model="tempoAlmoco" id="tempoAlmoco" name="tempoAlmoco"
-                        placeholder="tempo almoço" />
-                </fieldset>
-                <fieldset class="tw-mb-[15px] tw-w-full tw-flex tw-flex-col tw-justify-start">
-                    <label class="tw-leading-none tw-mb-2.5 tw-block" for="subtrairHorasAlmoco">
-                        Subtrair horas de almoço
-                    </label>
-                    <FormsSwitch v-model="subtrairHorasAlmoco" />
-                </Fieldset>
+                <FormsFieldSet label="Formatação Padrão" idField="formatacaoPadrao" v-slot="slotProps">
+                    <FormsInputText v-bind="slotProps" v-model="formatacaoPadrao" />
+                </FormsFieldSet>
+                <FormsFieldSet label="Tempo de almoço" idField="tempoAlmoco" v-slot="slotProps">
+                    <FormsInputHours v-bind="slotProps" v-model="tempoAlmoco" />
+                </FormsFieldSet>
+                <FormsFieldSet label="Subtrair horas de almoço" idField="subtrairHorasAlmoco" v-slot="slotProps">
+                    <FormsSwitch v-bind="slotProps" v-model="subtrairHorasAlmoco" label="" />
+                </FormsFieldSet>
             </section>
             <div>
                 <Btn v-model="formatacaoPadrao" text="Salvar" @click="salvarConfiguracoesHistorico()" />
