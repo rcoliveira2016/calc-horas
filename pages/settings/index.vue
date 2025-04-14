@@ -155,7 +155,7 @@ const onExit = async () => {
                     </div>
                 </template>
                 <template v-else>
-                    <Btn text="Login com github" icon="radix-icons:github-logo" @click="onExit" />
+                    <Btn text="Login com github" icon="radix-icons:github-logo" @click="loginWithGithub" />
                 </template>
             </div>
         </section>
