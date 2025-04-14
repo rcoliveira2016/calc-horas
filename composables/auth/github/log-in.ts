@@ -1,3 +1,5 @@
+import { useNotificationError } from '~/composables/notifications/use-notification'
+
 export const useLogInGitHub = () => {
   const config = useRuntimeConfig()
   const clientId = config.public.githubClientId
@@ -14,13 +16,16 @@ export const useCallbackLogInGitHub = () => {
 
   onMounted(async () => {
     const code = route.query.code
-    console.log({ code })
 
     if (!code) return
     try {
-      const { message } = await $fetch('/api/auth/github', { params: { code } })
+      await $fetch('/api/auth/github', { params: { code } })
       router.push('/')
     } catch (error) {
+      useNotificationError(
+        'Erro ao autenticar',
+        'Não foi possível autenticar com o GitHub',
+      )
       console.error('Erro ao autenticar:', error)
     }
   })

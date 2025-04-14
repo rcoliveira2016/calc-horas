@@ -5,6 +5,7 @@ export default defineEventHandler(async (event) => {
   const code = getQuery(event).code as string
 
   if (!code) {
+    console.error('Código não fornecido', getQuery(event))
     throw createError({
       statusCode: 400,
       statusMessage: 'Código não fornecido',
