@@ -16,8 +16,8 @@
     </span>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue';
 import debounce from 'lodash.debounce';
+import { ref } from 'vue';
 const divContent = ref<HTMLElement>();
 const hours = ref("");
 const minutes = ref("");
@@ -38,7 +38,7 @@ const lastKeyPressArrowXDefault = {
     roleInput: "",
 };
 
-const lastKeyPressArrowX = { ...lastKeyPressArrowXDefault };
+let lastKeyPressArrowX = { ...lastKeyPressArrowXDefault };
 
 onMounted(() => {
     if (props.focus) {
@@ -52,7 +52,17 @@ const updateValue = () => {
     emits('update:modelValue', valor);
 }
 
-const keydownInputs = (event: KeyboardEvent) => {
+const keydownInputs = async (event: KeyboardEvent) => {
+
+    if (event.ctrlKey && event.key === 'c') {
+        window.navigator.clipboard.writeText(`${hours.value}:${minutes.value}`);
+    }
+    if (event.ctrlKey && event.key === 'v') {
+        const text = await window.navigator.clipboard.readText();
+        const valor = stringFormatHoursMinutesToDecimal(text);
+        emits('update:modelValue', valor);
+    }
+
     if (
         event.key === "Backspace" || event.key === "Delete" || event.key === "Tab" || event.key === "ArrowLeft" ||
         event.key === "ArrowRight"
@@ -167,7 +177,6 @@ const unfocusEventInput = (event: FocusEvent) => {
         if (divContent.value?.contains(el) && divContent.value?.contains(elRelated)) return;
     }
 
-    console.log('unfocusEventInput');
     divContent.value?.classList.remove('tw-outline');
     emits('blur');
 }
