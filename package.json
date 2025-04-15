@@ -16,7 +16,7 @@
     "@types/lodash.debounce": "^4.0.9",
     "lodash.debounce": "^4.0.8",
     "mathjs": "^13.2.0",
-    "nuxt": "^3.13.0",
+    "nuxt": "^3.16.2",
     "pinia": "^2.2.4",
     "reka-ui": "^2.2.0",
     "vue": "latest",
