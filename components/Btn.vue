@@ -22,7 +22,7 @@
 
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue';
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 
 interface Props {
     text?: string;

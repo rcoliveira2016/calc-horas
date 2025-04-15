@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ToastAction, ToastDescription, ToastProvider, ToastRoot, ToastTitle, ToastViewport } from 'radix-vue';
+import { ToastAction, ToastDescription, ToastProvider, ToastRoot, ToastTitle, ToastViewport } from 'reka-ui';
 import { useNotificationsStore, type NotificationsItemState } from '~/stores/ui/notifications/store';
 
 const store = useNotificationsStore();

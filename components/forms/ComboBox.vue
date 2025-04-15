@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 import {
   ComboboxAnchor,
   ComboboxContent,
@@ -10,8 +10,7 @@ import {
   ComboboxRoot,
   ComboboxTrigger,
   ComboboxViewport,
-} from "radix-vue";
-import { Icon } from "@iconify/vue";
+} from "reka-ui";
 type OptionValueType = string | number | Record<string, unknown>
 type OptionType = { text: string, value: OptionValueType };
 const modelValue = defineModel<OptionValueType>();
@@ -30,12 +29,12 @@ const valueComboBox = computed<OptionType | undefined>({
 </script>
 
 <template>
-  <ComboboxRoot v-model="valueComboBox" class="tw-relative" :display-value="(opt: OptionType) => opt.text">
+  <ComboboxRoot v-model="valueComboBox" class="tw-relative">
     <ComboboxAnchor
       class="tw-h-[48px] tw-rounded-lg tw-flex tw-items-center tw-justify-between tw-px-[15px] tw-leading-none tw-border tw-border-neutral-200 dark:tw-border-white/10 tw-gap-[5px] tw-bg-gray-600 dark:tw-bg-gray-800 tw-shadow-[0_2px_10px] tw-shadow-black/10 hover:tw-bg-mauve3 focus:tw-shadow-[0_0_0_2px] focus:tw-shadow-black">
       <ComboboxInput
         class="!tw-bg-transparent tw-w-full tw-outline-none selection:tw-bg-gray-700 tw-bg-gray-600 dark:tw-bg-gray-800"
-        :placeholder="placeholder" />
+        :display-value="(opt: OptionType) => opt?.text" :placeholder="placeholder" :ignore-filter="true" />
       <ComboboxTrigger>
         <Icon icon="radix-icons:chevron-down" class="tw-h-4 tw-w-4" tabindex="0" />
       </ComboboxTrigger>

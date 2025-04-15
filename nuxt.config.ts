@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss', 'radix-vue/nuxt', '@pinia/nuxt'],
+  modules: ['@nuxtjs/tailwindcss', 'reka-ui/nuxt', '@pinia/nuxt'],
   app: {
     head: {
       title: 'Calc Horas',
