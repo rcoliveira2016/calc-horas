@@ -33,6 +33,9 @@ import { useHistoricoHorasStore } from '~/stores/historico-horas/store';
 import { TipoCalculo } from '~/stores/historico-horas/types';
 
 const store = useHistoricoHorasStore();
+onBeforeMount(() => {
+    store.inicializar();
+});
 
 const options = ref([
     {

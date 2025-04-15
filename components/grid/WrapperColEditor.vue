@@ -1,6 +1,6 @@
 <template>
     <slot v-if="showEditor" name="editor" :item="item" />
-    <div v-else @click="emitFocusin" tabindex="0">
+    <div v-else @dblclick="emitFocusin" tabindex="0">
         <slot :item="item" />
     </div>
 </template>

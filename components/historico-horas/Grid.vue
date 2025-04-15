@@ -32,19 +32,21 @@
         <template #td-name-formatoCustomizado="{ item }">
             {{ formatCustomHours(somarTotal(item), store.formato) }}
         </template>
-        <template #td-name-tag="{ item }">
+        <template #td-name-tag="{ item, column }">
             <GridWrapperColEditor key-name="uid" name-column="tag" :item="item" :name-column-edit="store.colunaEditando"
                 :key-value="store.itemSelecionadoEditando">
-                {{ item.tag }}
+                <div :style="{ width: column.width, overflow: 'hidden' }">
+                    {{ item.tag }}
+                </div>
                 <template #editor="{ item }">
-                    <FormsInputText v-model="item.tag" focus @blur="focusout(item)" />
+                    <FormsInputText class="!tw-w-full tw-min-w-16" v-model="item.tag" focus @blur="focusout(item)" />
                 </template>
             </GridWrapperColEditor>
         </template>
         <template #td-name-tempoAjustado="{ item }">
             <GridWrapperColEditor key-name="uid" name-column="tempoAjustado" :item="item"
                 :name-column-edit="store.colunaEditando" :key-value="store.itemSelecionadoEditando">
-                {{ decimalToFormatHoursMinutos(item.tempoAjustado) }}
+                {{ decimalToFormatHoursMinutos(item.tempoAjustado, { hideZero: true }) }}
                 <template v-if="itemEdicao" #editor="{ item }">
                     <FormsInputHours v-model="itemEdicao!.tempoAjustado" focus @blur="focusoutTempoAjustado(item)" />
                 </template>
@@ -61,9 +63,6 @@ import sumTotal from '~/utils/sum-total';
 
 const store = useHistoricoHorasStore();
 const itemEdicao = ref<HistoricoItemState>();
-onMounted(() => {
-    store.inicializar();
-})
 
 const somarTotal = (item: HistoricoItemState) => {
     return sumTotal(item);
@@ -158,11 +157,13 @@ const columns: GridColumnProps[] = [
     },
     {
         name: 'tag',
-        label: 'tag'
+        label: 'tag',
+        width: '100px',
     },
     {
         name: 'tempoAjustado',
-        label: 'tempo ajustado'
+        label: 'tempo ajustado',
+        width: '100px'
     }
 ];
 </script>

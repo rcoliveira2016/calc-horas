@@ -1,7 +1,10 @@
 export default function (
   decimalTime: number,
-  options?: { showNegative?: boolean },
+  options?: { showNegative?: boolean; hideZero?: boolean },
 ): string {
+  if (options?.hideZero && decimalTime === 0) {
+    return ''
+  }
   const { hours, minutes } = decimalToHoursMinutos(
     options?.showNegative ? decimalTime : Math.abs(decimalTime),
   )

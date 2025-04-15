@@ -35,10 +35,10 @@ export const useHistoricoHorasStore = defineStore('historico-horas', {
       const historico = await $historicoHorasStorage.getAll()
       const configuracoes = await $configuracoesHistoricoStorage.get()
 
-      this.formato = configuracoes.formatacaoPadrao || ''
       this.tipoCalculo = TipoCalculo.subtrair
       this.tempoInicial = 8.5
       this.tempoFinal = 10
+      this.formato = configuracoes.formatacaoPadrao || ''
       this.historico = historico.map((item) => ({
         ...item,
       }))

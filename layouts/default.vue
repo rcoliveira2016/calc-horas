@@ -18,12 +18,6 @@
                                 Ultilitarios
                             </NuxtLink>
                         </li>
-                        <li>
-                            <NuxtLink to="/settings" class="tw-flex tw-items-center">
-                                Configurações
-                            </NuxtLink>
-
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -31,12 +25,10 @@
                 <div class="tw-ml-8 tw-flex tw-align-bottom" id="navbar-default">
                     <ul
                         class="dark:tw-text-white tw-font-medium tw-flex tw-flex-col tw-p-4 md:tw-p-0 tw-mt-4 md:tw-flex-row md:tw-space-x-8 tw-rtl:tw-space-x-reverse md:tw-mt-0 tw-dark:tw-bg-gray-800 md:tw-dark:tw-bg-gray-900">
-
                         <li>
-                            <NuxtLink to="/login" class="tw-flex tw-items-center">
-                                Login
+                            <NuxtLink to="/settings" class="tw-flex tw-items-center">
+                                Configurações
                             </NuxtLink>
-
                         </li>
                     </ul>
                 </div>
@@ -52,7 +44,7 @@
 <script setup lang="ts">
 useHead({
     bodyAttrs: {
-        class: 'tw-bg-slate-800 tw-text-white'
+        class: 'tw-bg-body-dark tw-text-body-light'
     }
 })
 </script>

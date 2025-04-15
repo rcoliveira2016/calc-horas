@@ -19,11 +19,11 @@
                 <tbody>
                     <tr class="tw-border-b tw-border-neutral-200 dark:tw-border-white/10" v-for="(item, index) in data"
                         :key="index">
-                        <td class="tw-h-[72px] tw-px-1 tw-py-3 tw-pl-4 focus:tw-border focus:tw-border-neutral-300 dark00 focus:dark:tw-border-white/20"
+                        <td class="tw-h-[72px] tw-px-1 tw-py-3 tw-pl-4 focus:tw-border focus:tw-outline-neutral-300 dark00 focus:dark:tw-outline-white/20"
                             tabindex="0" v-for="column in columns" :key="column.name"
                             @dblclick="$emit('dblclick-cell', $event, item, column)">
-                            <slot v-if="slots['td-name-' + column.name]" :name="'td-name-' + column.name"
-                                :item="item" />
+                            <slot v-if="slots['td-name-' + column.name]" :name="'td-name-' + column.name" :item="item"
+                                :column="column" />
                             <template v-else>
                                 {{ item[column.name] }}
                             </template>

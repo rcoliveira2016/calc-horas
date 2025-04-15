@@ -10,7 +10,7 @@ export const useLogOutGitHub = async () => {
   await $fetch('/api/auth/log-out')
 }
 
-export const useCallbackLogInGitHub = () => {
+export const useCallbackLogInGitHub = (nameRouter: string) => {
   const route = useRoute()
   const router = useRouter()
 
@@ -20,7 +20,7 @@ export const useCallbackLogInGitHub = () => {
     if (!code) return
     try {
       await $fetch('/api/auth/github', { params: { code } })
-      router.push('/')
+      router.push(nameRouter)
     } catch (error) {
       useNotificationError(
         'Erro ao autenticar',
