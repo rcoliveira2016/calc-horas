@@ -12,12 +12,12 @@
   "dependencies": {
     "@iconify/vue": "^4.1.2",
     "@nuxtjs/tailwindcss": "^6.12.1",
-    "@pinia/nuxt": "^0.5.5",
+    "@pinia/nuxt": "^0.11.0",
     "@types/lodash.debounce": "^4.0.9",
     "lodash.debounce": "^4.0.8",
-    "mathjs": "^13.2.0",
+    "mathjs": "^14.4.0",
     "nuxt": "^3.16.2",
-    "pinia": "^2.2.4",
+    "pinia": "^3.0.2",
     "reka-ui": "^2.2.0",
     "vue": "latest",
     "vue-router": "latest"
