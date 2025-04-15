@@ -178,6 +178,8 @@ const unfocusEventInput = (event: FocusEvent) => {
     }
 
     divContent.value?.classList.remove('tw-outline');
+    inputHours.flush();
+    inputMinutes.flush();
     emits('blur');
 }
 </script>
