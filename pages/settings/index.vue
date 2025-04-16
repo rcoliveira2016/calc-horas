@@ -139,11 +139,11 @@ const onExit = async () => {
         </section>
         <section
             class="tw-relative tw-mt-6 tw-p-4 tw-border-2 tw-border-neutral-200 tw-rounded-lg dark:tw-border-white/10">
-            <h3 class="tw-absolute tw-top-[-15px] tw-bg-inherit">Configurações Historico</h3>
+            <h3 class="tw-absolute tw-top-[-15px] tw-bg-inherit">Sincronizar Configurações</h3>
             <div class="tw-flex tw-gap-4">
                 <template v-if="user">
-                    <div class="tw-flex tw-gap-2">
-                        <div class="tw-flex tw-flex-row tw-gap-2">
+                    <div class="tw-flex tw-gap-2 tw-flex-col">
+                        <div class="tw-flex tw-flex-row tw-gap-2 tw-items-center">
                             <img :src="user.avatar" alt="Avatar" class="tw-w-16 tw-h-16 tw-rounded-full" />
                             <span class="tw-text-lg tw-font-semibold">{{ user.name }}</span>
                         </div>
@@ -155,7 +155,7 @@ const onExit = async () => {
                     </div>
                 </template>
                 <template v-else>
-                    <Btn text="Login com github" icon="radix-icons:github-logo" @click="loginWithGithub" />
+                    <Btn text="Sincronizar com github" icon="radix-icons:github-logo" @click="loginWithGithub" />
                 </template>
             </div>
         </section>
