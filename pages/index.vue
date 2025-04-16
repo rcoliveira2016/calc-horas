@@ -13,13 +13,9 @@
                 </div>
             </div>
         </div>
-        <div class="tw-w-[58rem] tw-mt-3">
+        <div class="tw-w-[58rem] tw-mt-1">
             <div role="toolbar" class="tw-py-4">
                 <Btn variant="secondary" text="Limpar" icon="radix-icons:eraser" @click="store.limparHistorico()" />
-                <span class="tw-mx-2">
-                    <span class="tw-text-xl tw-font-bold">Formatação: </span>
-                    <FormsInputText class="tw-w-28" v-model="store.formato" placeholder="formatação" />
-                </span>
                 <span class="tw-text-xl tw-font-bold">
                     Total Horas: {{ decimalToFormatHoursMinutos(store.totalHistorico) }}
                 </span>
