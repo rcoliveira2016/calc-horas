@@ -1,6 +1,6 @@
 <template>
     <div
-        class="flex flex-col tw-border tw-border-neutral-200 dark:tw-border-white/10 tw-p-2 tw-rounded-lg tw-bg-gray-800">
+        class="flex flex-col tw-border tw-border-neutral-200 dark:tw-border-white/10 tw-p-2 tw-rounded-lg tw-bg-gray-800 tw-shadow-md">
         <div class="tw-overflow-hidden">
             <table class="tw-text-left tw-w-full tw-text-sm tw-font-light tw-text-surface dark:tw-text-white">
                 <colgroup>

@@ -1,5 +1,5 @@
 <template>
-    <nav class="tw-bg-white tw-border-gray-200 dark:tw-bg-gray-900">
+    <nav class="tw-bg-white tw-border-gray-200 dark:tw-bg-gray-900 tw-shadow-md">
         <div
             class="tw-flex tw-flex-wrap tw-justify-between tw-items-center tw-mx-auto tw-p-4 xl:tw-px-44 lg:tw-px-22 md:tw-px-4 sm:tw-px-2">
             <div class="tw-flex tw-items-center ">
