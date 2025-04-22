@@ -146,11 +146,13 @@ const onExit = async () => {
                         <div class="tw-flex tw-flex-row tw-gap-2 tw-items-center">
                             <img :src="user.avatar" alt="Avatar" class="tw-w-16 tw-h-16 tw-rounded-full" />
                             <span class="tw-text-lg tw-font-semibold">{{ user.name }}</span>
+                            <btn text="Sair" variant="secondary" icon="radix-icons:exit" @click="onExit" />
                         </div>
                         <div class="tw-flex tw-gap-2 tw-mt-2">
-                            <btn text="Importar" icon="radix-icons:arrow-down" @click="onImportar" :loading="loading" />
-                            <btn text="Exportar" icon="radix-icons:upload" @click="onExportar" :loading="loading" />
-                            <btn text="Sair" icon="radix-icons:exit" @click="onExit" />
+                            <btn text="Importar" variant="flat" icon="radix-icons:arrow-down" @click="onImportar"
+                                :loading="loading" />
+                            <btn text="Exportar" variant="flat" icon="radix-icons:upload" @click="onExportar"
+                                :loading="loading" />
                         </div>
                     </div>
                 </template>
