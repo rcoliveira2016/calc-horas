@@ -118,7 +118,7 @@ const onExit = async () => {
 </script>
 
 <template>
-    <div class="tw-min-w-[50%]">
+    <div class="tw-min-w-[50vw]">
         <h1 class="tw-text-3xl tw-text-left tw-mb-4">Configurações</h1>
         <section class="tw-relative tw-p-4 tw-border-2 tw-border-neutral-200 tw-rounded-lg dark:tw-border-white/10">
             <h3 class="tw-absolute tw-top-[-15px] tw-bg-inherit">Configurações Historico</h3>
@@ -146,7 +146,8 @@ const onExit = async () => {
                         <div class="tw-flex tw-flex-row tw-gap-2 tw-items-center">
                             <img :src="user.avatar" alt="Avatar" class="tw-w-16 tw-h-16 tw-rounded-full" />
                             <span class="tw-text-lg tw-font-semibold">{{ user.name }}</span>
-                            <btn text="Sair" variant="secondary" icon="radix-icons:exit" @click="onExit" />
+                            <btn text="Sair" space="small" variant="secondary" icon="radix-icons:exit"
+                                @click="onExit" />
                         </div>
                         <div class="tw-flex tw-gap-2 tw-mt-2">
                             <btn text="Importar" variant="flat" icon="radix-icons:arrow-down" @click="onImportar"

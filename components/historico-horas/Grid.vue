@@ -141,27 +141,27 @@ const columns: GridColumnProps[] = [
     {
         name: 'inicio',
         label: 'inicio',
-        width: '120px'
+        width: '100px'
     },
     {
         name: 'final',
         label: 'final',
-        width: '120px'
+        width: '100px'
     },
     {
         name: 'total',
         label: 'total',
-        width: '120px'
+        width: '100px'
     },
     {
         name: 'formatoDecimal',
         label: 'f. decimal',
-        width: '120px'
+        width: '100px'
     },
     {
         name: 'formatoCustomizado',
         label: 'f. customizado',
-        width: '150px'
+        width: '100px'
     },
     {
         name: 'tag',
