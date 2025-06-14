@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLogInGitHub, useLogOutGitHub } from '~/composables/auth/github/log-in';
+import { isGitHubLoginEnabled, useLogInGitHub, useLogOutGitHub } from '~/composables/auth/github/log-in';
 import { useNotificationSuccess } from '~/composables/notifications/use-notification';
 import type { ProfileGithubApi } from '~/shared/types/server/api/profile/github-profile';
 export type Configuracoes = {
@@ -137,7 +137,7 @@ const onExit = async () => {
                 <Btn text="Salvar" @click="salvarConfiguracoesHistorico()" />
             </div>
         </section>
-        <section
+        <section v-if="isGitHubLoginEnabled()"
             class="tw-relative tw-mt-6 tw-p-4 tw-border-2 tw-border-neutral-200 tw-rounded-lg dark:tw-border-white/10">
             <h3 class="tw-absolute tw-top-[-15px] tw-bg-inherit">Sincronizar Configurações</h3>
             <div class="tw-flex tw-gap-4">

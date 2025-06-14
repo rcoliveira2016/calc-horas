@@ -1,7 +1,9 @@
 <template>
     <span>
-        <div ref="divContent"
-            class="tw-w-fit tw-flex tw-overflow-hidden tw-outline-1 tw-items-center tw-rounded-lg tw-border tw-border-neutral-200 dark:tw-border-white/10 tw-bg-gray-600 dark:tw-bg-gray-800">
+        <div ref="divContent" :class="[
+            'tw-w-fit tw-flex tw-overflow-hidden tw-outline-1 tw-items-center tw-rounded-lg tw-bg-gray-600 dark:tw-bg-gray-800',
+            noBorder ? 'tw-border-0 tw-outline-0' : 'tw-border tw-border-neutral-200 dark:tw-border-white/10'
+        ]">
 
             <input ref="hoursInput" role="input-hours" maxlength="2" :value="hours" @input="inputHours"
                 @keydown="keydownInputs" @keyup.up="acrescentHours" @keyup.down="decrementHours"
@@ -29,6 +31,7 @@ const minutesInput = ref<HTMLInputElement>();
 const props = defineProps<{
     modelValue: number;
     focus?: boolean;
+    noBorder?: boolean;
 }>();
 
 const emits = defineEmits(['update:modelValue', 'focus', 'blur']);
@@ -167,7 +170,8 @@ const acrescentMinutes = () => {
     updateValue();
 }
 const focusEventInput = () => {
-    divContent.value?.classList.add('tw-outline');
+    if (!props.noBorder)
+        divContent.value?.classList.add('tw-outline');
 }
 
 const unfocusEventInput = (event: FocusEvent) => {

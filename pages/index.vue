@@ -2,8 +2,16 @@
     <div class="tw-flex tw-gap-3">
         <div class="tw-flex tw-flex-col tw-gap-3">
             <div class="tw-flex tw-gap-3 tw-items-center">
+                <Btn variant="icon" space="small" icon="radix-icons:loop" @click="store.substituirHorario('invert')" />
+                <Btn variant="icon" space="small" icon="radix-icons:arrow-left"
+                    @click="store.substituirHorario('right-left')" />
+                <Btn variant="icon" space="small" icon="radix-icons:arrow-right"
+                    @click="store.substituirHorario('left-right')" />
+            </div>
+            <div class="tw-flex tw-gap-3 tw-items-center">
                 <FormsInputHours v-model="store.tempoInicial" />
                 <FormsInputHours v-model="store.tempoFinal" />
+
                 <FormsComboBox class="tw-w-[150px]" v-model="store.tipoCalculo" :options="options"
                     placeholder="Tipo de Ação" />
                 <span>Horas: {{ decimalToFormatHoursMinutos(store.totalResultado) }} </span>
@@ -12,7 +20,7 @@
             </div>
         </div>
     </div>
-    <div class="tw-w-[58rem] tw-mt-1">
+    <div class="tw-w-[58rem] max-sm:tw-w-[45rem] tw-mt-1">
         <div role="toolbar" class="tw-py-2 tw-gap-2 tw-flex tw-items-center">
             <Btn text="Resetar" variant="secondary" space="small" icon="radix-icons:symbol"
                 @click="store.limparHistorico()" />

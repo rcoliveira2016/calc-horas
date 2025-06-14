@@ -50,9 +50,9 @@ export const useHistoricoHorasStore = defineStore("historico-horas", {
     },
     async alterarItem(item: HistoricoItemState) {
       const index = this.historico.findIndex((i) => i.uid === item.uid);
-      if (index === -1) {
-        return;
-      }
+      if (index === -1) return;
+      const old = this.historico[index];
+      if (!hasChangesObj(old, item)) return;
       this.historico[index] = item;
       const { $historicoHorasStorage } = useNuxtApp();
       await $historicoHorasStorage.update(item);
@@ -88,6 +88,17 @@ export const useHistoricoHorasStore = defineStore("historico-horas", {
       $historicoHorasStorage.add(item);
 
       useNotificationSuccess("sucesso", "item adicionado com sucesso");
+    },
+    substituirHorario(acao: "left-right" | "right-left" | "invert") {
+      if (acao === "left-right") {
+        this.tempoFinal = this.tempoInicial;
+      } else if (acao === "right-left") {
+        this.tempoInicial = this.tempoFinal;
+      } else if (acao === "invert") {
+        const aux = this.tempoInicial;
+        this.tempoInicial = this.tempoFinal;
+        this.tempoFinal = aux;
+      }
     },
   },
 });

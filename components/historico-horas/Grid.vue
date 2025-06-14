@@ -9,7 +9,8 @@
                 @focusin="editarCelula">
                 {{ decimalToFormatHoursMinutos(item.tempoInicial) }}
                 <template v-if="itemEdicao" #editor>
-                    <FormsInputHours v-model="itemEdicao.tempoInicial" focus @blur="commitarItem(itemEdicao)" />
+                    <FormsInputHours v-model="itemEdicao.tempoInicial" no-border focus
+                        @blur="commitarItem(itemEdicao)" />
                 </template>
             </GridWrapperColEditor>
         </template>
@@ -19,7 +20,7 @@
                 @focusin="editarCelula">
                 {{ decimalToFormatHoursMinutos(item.tempoFinal) }}
                 <template v-if="itemEdicao" #editor>
-                    <FormsInputHours v-model="itemEdicao.tempoFinal" focus @blur="commitarItem(itemEdicao)" />
+                    <FormsInputHours v-model="itemEdicao.tempoFinal" no-border focus @blur="commitarItem(itemEdicao)" />
                 </template>
             </GridWrapperColEditor>
         </template>
@@ -39,7 +40,7 @@
                     {{ item.tag }}
                 </div>
                 <template v-if="itemEdicao" #editor>
-                    <FormsInputText class="!tw-w-full tw-min-w-16" v-model="itemEdicao.tag" focus
+                    <FormsInputText no-border class="!tw-w-full tw-min-w-16" v-model="itemEdicao.tag" focus
                         @blur="commitarItem(itemEdicao)" />
                 </template>
             </GridWrapperColEditor>
@@ -49,7 +50,8 @@
                 :name-column-edit="store.colunaEditando" :key-value="store.itemSelecionadoEditando">
                 {{ decimalToFormatHoursMinutos(item.tempoAjustado, { hideZero: true }) }}
                 <template v-if="itemEdicao" #editor>
-                    <FormsInputHours v-model="itemEdicao!.tempoAjustado" focus @blur="focusoutTempoAjustado(item)" />
+                    <FormsInputHours no-border v-model="itemEdicao!.tempoAjustado" focus
+                        @blur="focusoutTempoAjustado(itemEdicao)" />
                 </template>
             </GridWrapperColEditor>
         </template>
@@ -151,17 +153,17 @@ const columns: GridColumnProps[] = [
     {
         name: 'total',
         label: 'total',
-        width: '100px'
+        maxWidth: '100px'
     },
     {
         name: 'formatoDecimal',
         label: 'f. decimal',
-        width: '100px'
+        maxWidth: '100px'
     },
     {
         name: 'formatoCustomizado',
         label: 'f. customizado',
-        width: '100px'
+        maxWidth: '100px'
     },
     {
         name: 'tag',
@@ -171,7 +173,7 @@ const columns: GridColumnProps[] = [
     {
         name: 'tempoAjustado',
         label: 'tempo ajustado',
-        width: '100px'
+        maxWidth: '100px'
     }
 ];
 </script>

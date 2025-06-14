@@ -1,32 +1,37 @@
-import { useNotificationError } from '~/composables/notifications/use-notification'
+import { useNotificationError } from "~/composables/notifications/use-notification";
 
 export const useLogInGitHub = () => {
-  const config = useRuntimeConfig()
-  const clientId = config.public.githubClientId
-  window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user,gist`
-}
+  const config = useRuntimeConfig();
+  const clientId = config.public.githubClientId;
+  window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=user,gist`;
+};
 
 export const useLogOutGitHub = async () => {
-  await $fetch('/api/auth/log-out')
-}
+  await $fetch("/api/auth/log-out");
+};
+
+export const isGitHubLoginEnabled = () => {
+  const config = useRuntimeConfig();
+  return !!config.public.githubClientId;
+};
 
 export const useCallbackLogInGitHub = (nameRouter: string) => {
-  const route = useRoute()
-  const router = useRouter()
+  const route = useRoute();
+  const router = useRouter();
 
   onMounted(async () => {
-    const code = route.query.code
+    const code = route.query.code;
 
-    if (!code) return
+    if (!code) return;
     try {
-      await $fetch('/api/auth/github', { params: { code } })
-      router.push(nameRouter)
+      await $fetch("/api/auth/github", { params: { code } });
+      router.push(nameRouter);
     } catch (error) {
       useNotificationError(
-        'Erro ao autenticar',
-        'Não foi possível autenticar com o GitHub',
-      )
-      console.error('Erro ao autenticar:', error)
+        "Erro ao autenticar",
+        "Não foi possível autenticar com o GitHub"
+      );
+      console.error("Erro ao autenticar:", error);
     }
-  })
-}
+  });
+};
