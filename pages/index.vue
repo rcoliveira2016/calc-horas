@@ -2,11 +2,12 @@
     <div class="tw-flex tw-gap-3">
         <div class="tw-flex tw-flex-col tw-gap-3">
             <div class="tw-flex tw-gap-3 tw-items-center">
-                <Btn variant="icon" space="small" icon="radix-icons:loop" @click="store.substituirHorario('invert')" />
+                <Btn variant="icon" space="small" icon="radix-icons:loop" @click="store.substituirHorario('invert')"
+                    v-tooltip.bottom="'inverter valores de horas'" />
                 <Btn variant="icon" space="small" icon="radix-icons:arrow-left"
-                    @click="store.substituirHorario('right-left')" />
+                    v-tooltip.bottom="'subtituir pelo valor final'" @click="store.substituirHorario('right-left')" />
                 <Btn variant="icon" space="small" icon="radix-icons:arrow-right"
-                    @click="store.substituirHorario('left-right')" />
+                    v-tooltip.bottom="'subtituir pelo valor inicial'" @click="store.substituirHorario('left-right')" />
             </div>
             <div class="tw-flex tw-gap-3 tw-items-center">
                 <FormsInputHours v-model="store.tempoInicial" />
