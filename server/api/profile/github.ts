@@ -3,6 +3,7 @@ import { ProfileGithubApi } from "~/shared/types/server/api/profile/github-profi
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
+  console.log(config);
   if (!config.githubClientSecret) {
     throw createError({
       statusCode: 500,

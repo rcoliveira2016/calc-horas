@@ -12,6 +12,7 @@ export const useLogOutGitHub = async () => {
 
 export const isGitHubLoginEnabled = () => {
   const config = useRuntimeConfig();
+  console.log("front", config);
   return !!config.public.githubClientId;
 };
 
