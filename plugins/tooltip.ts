@@ -3,6 +3,7 @@ import type { DirectiveBinding, ObjectDirective } from "vue";
 
 interface TooltipHTMLElement extends HTMLElement {
   _tooltip?: HTMLElement;
+  _timeoutShow: NodeJS.Timeout | null;
 }
 
 const createTooltipElement = (texto: string): HTMLElement => {
@@ -82,14 +83,15 @@ const tooltipDirective: ObjectDirective = {
     };
 
     const show = (): void => {
-      setTimeout(() => {
+      el._timeoutShow = setTimeout(() => {
         positionTooltip();
         tooltip.classList.remove("tw-opacity-0");
         tooltip.classList.add("tw-opacity-100");
-      });
+      }, delay);
     };
 
     const hide = (): void => {
+      if (el._timeoutShow) clearTimeout(el._timeoutShow);
       tooltip.classList.remove("tw-opacity-100");
       tooltip.classList.add("tw-opacity-0");
     };
