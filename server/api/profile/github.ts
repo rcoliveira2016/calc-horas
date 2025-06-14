@@ -2,6 +2,8 @@ import { COOKIES_NAME_TOKEN_AUTH_GITHUB } from "~/shared/constants/names-cookies
 import { ProfileGithubApi } from "~/shared/types/server/api/profile/github-profile";
 
 export default defineEventHandler(async (event) => {
+  console.log(process.env);
+
   const token = getCookie(event, COOKIES_NAME_TOKEN_AUTH_GITHUB);
   console.log({ token });
   if (!token) {
