@@ -1,5 +1,9 @@
 import { defineStore } from "pinia";
 import { useNotificationSuccess } from "~/composables/notifications/use-notification";
+import {
+  TEMPO_FINAL_PADRAO,
+  TEMPO_INICIAL_PADRAO,
+} from "~/shared/constants/configuracaoes";
 import setarConfiguracoesItemHistorico from "~/utils/historico-horas/setar-configuracoes-item-historico";
 import sumTotal from "~/utils/sum-total";
 import {
@@ -36,8 +40,8 @@ export const useHistoricoHorasStore = defineStore("historico-horas", {
       const configuracoes = await $configuracoesHistoricoStorage.get();
 
       this.tipoCalculo = TipoCalculo.subtrair;
-      this.tempoInicial = 8;
-      this.tempoFinal = 10;
+      this.tempoInicial = configuracoes.tempoInicial || TEMPO_INICIAL_PADRAO;
+      this.tempoFinal = configuracoes.tempoFinal || TEMPO_FINAL_PADRAO;
       this.formato = configuracoes.formatacaoPadrao || "";
       this.historico = historico.map((item) => ({
         ...item,

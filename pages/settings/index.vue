@@ -1,17 +1,22 @@
 <script setup lang="ts">
 import { isGitHubLoginEnabled, useLogInGitHub, useLogOutGitHub } from '~/composables/auth/github/log-in';
 import { useNotificationSuccess } from '~/composables/notifications/use-notification';
+import { TEMPO_FINAL_PADRAO, TEMPO_INICIAL_PADRAO } from '~/shared/constants/configuracaoes';
 import type { ProfileGithubApi } from '~/shared/types/server/api/profile/github-profile';
 export type Configuracoes = {
     subtrairHorasAlmoco: boolean
     tempoAlmoco: number
     formatacaoPadrao?: string
+    tempoInicial: number
+    tempoFinal: number
 }
 
 const configuracoes = ref<Configuracoes>({
     subtrairHorasAlmoco: false,
     tempoAlmoco: 0,
-    formatacaoPadrao: ''
+    formatacaoPadrao: '',
+    tempoFinal: TEMPO_FINAL_PADRAO,
+    tempoInicial: TEMPO_INICIAL_PADRAO,
 });
 const user = ref<{ name: string; avatar: string } | null>(null);
 const loading = ref(false);
@@ -47,6 +52,8 @@ const obterDadosConfiguracoesHistorico = async () => {
     configuracoes.value.formatacaoPadrao = configuracoesHistorico.formatacaoPadrao || '';
     configuracoes.value.subtrairHorasAlmoco = configuracoesHistorico.subtrairHorasAlmoco || false;
     configuracoes.value.tempoAlmoco = configuracoesHistorico.tempoAlmoco || 0;
+    configuracoes.value.tempoInicial = configuracoesHistorico.tempoInicial || TEMPO_INICIAL_PADRAO;
+    configuracoes.value.tempoFinal = configuracoesHistorico.tempoFinal || TEMPO_FINAL_PADRAO;
 }
 
 const salvarConfiguracoesHistorico = async () => {
@@ -55,7 +62,9 @@ const salvarConfiguracoesHistorico = async () => {
     await $configuracoesHistoricoStorage.set({
         subtrairHorasAlmoco: configuracoes.value.subtrairHorasAlmoco,
         tempoAlmoco: configuracoes.value.tempoAlmoco,
-        formatacaoPadrao: configuracoes.value.formatacaoPadrao
+        formatacaoPadrao: configuracoes.value.formatacaoPadrao,
+        tempoFinal: configuracoes.value.tempoFinal,
+        tempoInicial: configuracoes.value.tempoInicial,
     });
 
     useNotificationSuccess('sucesso', 'Configurações salvas com sucesso');
@@ -82,7 +91,9 @@ const onImportar = async () => {
         configuracoes.value = {
             formatacaoPadrao: data.config.formatacaoPadrao || configuracoes.value.formatacaoPadrao,
             subtrairHorasAlmoco: data.config.subtrairHorasAlmoco || configuracoes.value.subtrairHorasAlmoco,
-            tempoAlmoco: data.config.tempoAlmoco || configuracoes.value.tempoAlmoco
+            tempoAlmoco: data.config.tempoAlmoco || configuracoes.value.tempoAlmoco,
+            tempoFinal: data.config.tempoFinal || configuracoes.value.tempoFinal,
+            tempoInicial: data.config.tempoInicial || configuracoes.value.tempoInicial,
         }
 
         salvarConfiguracoesHistorico();
@@ -96,7 +107,9 @@ const onExportar = async () => {
             payload: {
                 formatacaoPadrao: configuracoes.value.formatacaoPadrao,
                 subtrairHorasAlmoco: configuracoes.value.subtrairHorasAlmoco,
-                tempoAlmoco: configuracoes.value.tempoAlmoco
+                tempoAlmoco: configuracoes.value.tempoAlmoco,
+                tempoFinal: configuracoes.value.tempoFinal,
+                tempoInicial: configuracoes.value.tempoInicial,
             }
         },
         onResponse() {
@@ -123,6 +136,12 @@ const onExit = async () => {
         <section class="tw-relative tw-p-4 tw-border-2 tw-border-neutral-200 tw-rounded-lg dark:tw-border-white/10">
             <h3 class="tw-absolute tw-top-[-15px] tw-bg-inherit">Configurações Historico</h3>
             <section class="tw-grid tw-grid-cols-3">
+                <FormsFieldSet label="Tempo inicial padrão" idField="tempoInicial" v-slot="slotProps">
+                    <FormsInputHours v-bind="slotProps" v-model="configuracoes.tempoInicial" />
+                </FormsFieldSet>
+                <FormsFieldSet label="Tempo final padrão" idField="tempoFinal" v-slot="slotProps">
+                    <FormsInputHours v-bind="slotProps" v-model="configuracoes.tempoFinal" />
+                </FormsFieldSet>
                 <FormsFieldSet label="Formatação Padrão" idField="formatacaoPadrao" v-slot="slotProps">
                     <FormsInputText v-bind="slotProps" v-model="configuracoes.formatacaoPadrao" />
                 </FormsFieldSet>

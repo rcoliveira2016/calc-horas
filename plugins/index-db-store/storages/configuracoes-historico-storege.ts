@@ -1,17 +1,23 @@
-import { getOpenDb } from '../common/open-db'
+import {
+  TEMPO_FINAL_PADRAO,
+  TEMPO_INICIAL_PADRAO,
+} from "~/shared/constants/configuracaoes";
+import { getOpenDb } from "../common/open-db";
 import {
   getObjectStoreTransaction,
   getObjectStoreValue,
-} from '../common/open-session'
-import { unwrapRequest } from '../common/unwrap-request'
-import { NAME_OBJECT_STORE_CONFIGURACOES_HISTORICO } from './constants'
+} from "../common/open-session";
+import { unwrapRequest } from "../common/unwrap-request";
+import { NAME_OBJECT_STORE_CONFIGURACOES_HISTORICO } from "./constants";
 
-const keyPathDefault = 1
+const keyPathDefault = 1;
 
 const defaultItem: ConfiguracoesHistoricoItemStorage = {
   subtrairHorasAlmoco: false,
   tempoAlmoco: 0,
-}
+  tempoFinal: TEMPO_FINAL_PADRAO,
+  tempoInicial: TEMPO_INICIAL_PADRAO,
+};
 
 export const ConfiguracoesHistoricoStorage = () => {
   return {
@@ -22,36 +28,38 @@ export const ConfiguracoesHistoricoStorage = () => {
         async (objectStore) => {
           const dataStore =
             await unwrapRequest<ConfiguracoesHistoricoItemStorage>(
-              await objectStore.get(keyPathDefault),
-            )
+              await objectStore.get(keyPathDefault)
+            );
 
           if (!dataStore) {
             await unwrapRequest(
-              objectStore.add({ id: keyPathDefault, ...item }),
-            )
-            return
+              objectStore.add({ id: keyPathDefault, ...item })
+            );
+            return;
           }
 
-          const newData = { ...dataStore, ...item }
-          await unwrapRequest(objectStore.put(newData))
-        },
-      )
+          const newData = { ...dataStore, ...item };
+          await unwrapRequest(objectStore.put(newData));
+        }
+      );
     },
     async get(): Promise<ConfiguracoesHistoricoItemStorage> {
       const dataStore =
         await getObjectStoreValue<ConfiguracoesHistoricoItemStorage>(
           await getOpenDb(),
           NAME_OBJECT_STORE_CONFIGURACOES_HISTORICO,
-          keyPathDefault,
-        )
+          keyPathDefault
+        );
 
-      return dataStore || defaultItem
+      return dataStore || defaultItem;
     },
-  }
-}
+  };
+};
 
 export type ConfiguracoesHistoricoItemStorage = {
-  subtrairHorasAlmoco: boolean
-  tempoAlmoco: number
-  formatacaoPadrao?: string
-}
+  subtrairHorasAlmoco: boolean;
+  tempoAlmoco: number;
+  formatacaoPadrao?: string;
+  tempoInicial: number;
+  tempoFinal: number;
+};
