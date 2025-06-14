@@ -5,10 +5,7 @@ export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   console.log(config);
   if (!config.githubClientSecret) {
-    throw createError({
-      statusCode: 500,
-      statusMessage: "erro de configuração",
-    });
+    return config;
   }
   const token = getCookie(event, COOKIES_NAME_TOKEN_AUTH_GITHUB);
   console.log({ token });
