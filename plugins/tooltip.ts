@@ -35,6 +35,8 @@ const tooltipDirective: ObjectDirective = {
     binding: DirectiveBinding<string | TooltipOptions>
   ) {
     const modifiers = binding.modifiers ?? {};
+    let delay = 100;
+    let offset = 8;
     let direction: TooltipDirection =
       (Object.keys(modifiers)[0] as TooltipDirection) || "top";
     let texto = "";
@@ -44,6 +46,8 @@ const tooltipDirective: ObjectDirective = {
     } else if (typeof binding.value === "object") {
       texto = binding.value.texto;
       direction = binding.value.direcao || "top";
+      delay = binding.value.delay || delay;
+      offset = binding.value.offset || offset;
     }
 
     const tooltip = createTooltipElement(texto);
@@ -56,20 +60,20 @@ const tooltipDirective: ObjectDirective = {
 
       switch (direction) {
         case "top":
-          top = rect.top - ttRect.height - 8;
+          top = rect.top - ttRect.height - offset;
           left = rect.left + (rect.width - ttRect.width) / 2;
           break;
         case "bottom":
-          top = rect.bottom + 8;
+          top = rect.bottom + offset;
           left = rect.left + (rect.width - ttRect.width) / 2;
           break;
         case "left":
           top = rect.top + (rect.height - ttRect.height) / 2;
-          left = rect.left - ttRect.width - 8;
+          left = rect.left - ttRect.width - offset;
           break;
         case "right":
           top = rect.top + (rect.height - ttRect.height) / 2;
-          left = rect.right + 8;
+          left = rect.right + offset;
           break;
       }
 
@@ -78,9 +82,11 @@ const tooltipDirective: ObjectDirective = {
     };
 
     const show = (): void => {
-      positionTooltip();
-      tooltip.classList.remove("tw-opacity-0");
-      tooltip.classList.add("tw-opacity-100");
+      setTimeout(() => {
+        positionTooltip();
+        tooltip.classList.remove("tw-opacity-0");
+        tooltip.classList.add("tw-opacity-100");
+      });
     };
 
     const hide = (): void => {
