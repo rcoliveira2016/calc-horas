@@ -7,7 +7,8 @@
     <div class="tw-absolute tw-bottom-0 tw-w-full tw-bg-white tw-text-gray-800 tw-px-4 tw-py-10 tw-shadow-xl">
       <div class="tw-max-w-4xl tw-mx-auto tw-flex tw-justify-between tw-items-center tw-gap-4">
         <p class="tw-text-lg">
-          As informações são salvas apenas <strong>no seu navegador</strong> (<i>localStorage</i>). Ao trocar de
+          As informações são salvas apenas <strong>no seu navegador</strong> (<i>localStorage</i>). 
+          Ao trocar de
           dispositivo ou navegador, <strong>os dados não estarão disponíveis</strong>.
         </p>
         <button @click="accept" class="tw-bg-blue-600 tw-text-white tw-px-4 tw-py-2 tw-rounded hover:tw-bg-blue-700">
